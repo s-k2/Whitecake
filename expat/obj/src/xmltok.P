@@ -1,0 +1,8 @@
+obj/src/xmltok.o: src/xmltok.c src/winconfig.h src/expat_external.h \
+ src/internal.h src/xmltok.h src/nametab.h src/xmltok_impl.h src/ascii.h \
+ src/xmltok_impl.c src/asciitab.h src/utf8tab.h src/iasciitab.h \
+ src/latin1tab.h src/xmltok_ns.c
+src/xmltok.c src/winconfig.h src/expat_external.h \ :
+ src/internal.h src/xmltok.h src/nametab.h src/xmltok_impl.h src/ascii.h \ :
+ src/xmltok_impl.c src/asciitab.h src/utf8tab.h src/iasciitab.h \ :
+ src/latin1tab.h src/xmltok_ns.c :

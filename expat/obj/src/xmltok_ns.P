@@ -1,0 +1,2 @@
+obj/src/xmltok_ns.o: src/xmltok_ns.c
+src/xmltok_ns.c :

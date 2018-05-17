@@ -1,0 +1,2 @@
+obj/src/xmltok_impl.o: src/xmltok_impl.c
+src/xmltok_impl.c :

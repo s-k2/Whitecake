@@ -1,0 +1,4 @@
+obj/src/xmlrole.o: src/xmlrole.c src/winconfig.h src/expat_external.h \
+ src/internal.h src/xmlrole.h src/xmltok.h src/ascii.h
+src/xmlrole.c src/winconfig.h src/expat_external.h \ :
+ src/internal.h src/xmlrole.h src/xmltok.h src/ascii.h :

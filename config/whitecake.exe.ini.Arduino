@@ -1,0 +1,15 @@
+programmer = Arduino
+serialPort = COM5
+serialBaud = 115200
+regFileName = m328pdef.dat
+crystalFrequency = 16000000
+hardwareStack = 40
+softwareStack = 16
+frameSize = 32
+usingHardwareUART = 1
+integerVariables = integerVar0 integerVar1 integerVar2 integerVar3 integerVar4 integerVar5 integerVar6 integerVar7
+byteVariables = 
+ioPorts = PORTB.0 PORTB.1 PORTB.2 PORTB.3 PORTB.4 PORTB.5
+ioPins = PIND.2 PIND.3 PIND.4 PIND.5 PIND.6 PIND.7
+adcChannels = ADC0 ADC1 ADC2 ADC3 ADC4 ADC5
+aliases = D2_IN:PIND.2, D3_IN:PIND.3, D4_IN:PIND.4, D5_IN:PIND.5, D6_IN:PIND.6, D7_IN:PIND.7, D8_OUT:PORTB.0, D9_OUT:PORTB.1, D10_OUT:PORTB.2, D11_OUT:PORTB.3, D12_OUT:PORTB.4, D13_OUT:PORTB.5

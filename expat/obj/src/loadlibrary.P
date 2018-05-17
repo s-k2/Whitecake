@@ -1,0 +1,2 @@
+obj/src/loadlibrary.o: src/loadlibrary.c
+src/loadlibrary.c :

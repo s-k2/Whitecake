@@ -1,0 +1,15 @@
+programmer = TinyBas
+serialPort = HID
+serialBaud = 2400
+regFileName = attiny44a.dat
+crystalFrequency = 8000000
+hardwareStack = 40
+softwareStack = 16
+frameSize = 32
+usingHardwareUART = 1
+integerVariables = integerVar0 integerVar1 integerVar2 integerVar3 integerVar4 integerVar5 integerVar6 integerVar7
+byteVariables = 
+ioPorts = PORTA.0 PORTA.1 PORTA.2 PORTB.0
+ioPins = PINA.6 PINA.7
+adcChannels = ADC3 ADC4 ADC5
+aliases = ledgruen:PORTA.0, ledgelb:PORTA.1, ledrot:PORTA.2

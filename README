@@ -1,0 +1,7 @@
+Whitecake
+---------
+
+Whitecake is graphical programming environment for microcontrollers!
+
+You need a mingw-environment to build Whitecake. To build it, just call 
+"make" within this directory!

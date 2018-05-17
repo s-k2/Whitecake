@@ -1,0 +1,6 @@
+obj/src/xmlparse.o: src/xmlparse.c src/winconfig.h src/ascii.h \
+ src/expat.h src/expat_external.h src/siphash.h src/internal.h \
+ src/xmltok.h src/xmlrole.h
+src/xmlparse.c src/winconfig.h src/ascii.h \ :
+ src/expat.h src/expat_external.h src/siphash.h src/internal.h \ :
+ src/xmltok.h src/xmlrole.h :
