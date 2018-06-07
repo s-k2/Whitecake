@@ -32,7 +32,7 @@ void Settings::SetDefaults()
 
 #ifdef WHITECAKE_FOR_ARDUINO
 	programmer = "Arduino";
-	serialPort = "COM5";
+	serialPort = "COMx";
 	serialBaud = 115200;
 
 

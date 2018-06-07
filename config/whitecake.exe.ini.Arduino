@@ -1,5 +1,5 @@
 programmer = Arduino
-serialPort = COM5
+serialPort = COMx
 serialBaud = 115200
 regFileName = m328pdef.dat
 crystalFrequency = 16000000
