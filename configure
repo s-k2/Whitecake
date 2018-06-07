@@ -1,0 +1,21 @@
+#!/bin/bash
+
+if [[ (($# -eq 0)) || $1 == "Arduino" ]]; 
+  then 
+    PLATFORM=ARDUINO
+elif [ $1 == "TinyTick" ]
+  then
+    PLATFORM=TINYTICK
+elif [ $1 == "TinyBas" ]
+  then
+    PLATFORM=TINYBAS
+else
+    echo "Invalid platform $1 specified, only Arduino, TinyTick or TinyBas is possible"
+    exit 1
+fi
+
+echo "Configuring to use $1"
+
+echo "#ifndef WHITECAKE_FOR_$PLATFORM" >src/Config.h
+echo "#define WHITECAKE_FOR_$PLATFORM" >>src/Config.h
+echo "#endif /* WHITECAKE_FOR_$PLATFORM */" >>src/Config.h

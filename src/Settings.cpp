@@ -10,6 +10,7 @@ using std::pair;
 #include <vector>
 using std::vector;
 
+#include "Config.h"
 #include "Helper/String.h"
 #include "Platform.h"
 #include "Translate.h"
@@ -28,9 +29,20 @@ Settings::Settings()
 
 void Settings::SetDefaults()
 {
+
+#ifdef WHITECAKE_FOR_ARDUINO
 	programmer = "Arduino";
-	serialPort = "COM1";
+	serialPort = "COM5";
 	serialBaud = 115200;
+
+
+#endif /* WHITECAKE_FOR_ARDUINO */
+
+#if defined (WHITECAKE_FOR_TINYBAS) || defined (WHITECAKE_FOR_TINYTICK)
+	programmer = "TinyBas";
+	serialPort = "HID";
+	serialBaud = 2400;
+#endif /* defined (WHITECAKE_FOR_TINYBAS) || defined (WHITECAKE_FOR_TINYTICK) */
 
 	regFileName = "m328pdef.dat";
 	crystalFrequency = 16000000;
@@ -40,10 +52,10 @@ void Settings::SetDefaults()
 	usingHardwareUART = true;
 	// softUARTIn and softUARTOut are initialized with ""
 
-	for(size_t i = 0; i < 8; i++)
-		integerVariables.push_back("integerVar" + String::IntToStr(i));
-	for(size_t i = 0; i < 8; i++)
-		byteVariables.push_back("byteVar" + String::IntToStr(i));
+	for(size_t i = 0; i < 32; i++)
+		integerVariables.push_back("var" + String::IntToStr(i));
+//	for(size_t i = 0; i < 8; i++)
+//		byteVariables.push_back("byteVar" + String::IntToStr(i));
 	for(size_t i = 0; i < 8; i++)
 		ioPorts.push_back("PORTB." + String::IntToStr(i));
 	for(size_t i = 6; i < 7; i++)

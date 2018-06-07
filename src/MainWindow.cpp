@@ -9,6 +9,7 @@ using std::min;
 #include <vector>
 using std::vector;
 
+#include "Config.h"
 #include "ChartView.h"
 #include "Transfer.h"
 #include "Helper/Artwork.h"

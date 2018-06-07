@@ -1,5 +1,7 @@
 #include "Compiler.h"
 
+#include "Config.h"
+
 namespace Compiler {
 
 Microcontroller::Microcontroller()

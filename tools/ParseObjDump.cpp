@@ -67,7 +67,7 @@ void ParseHexLine(string line)
 		throw runtime_error("Invalid begin of hex-file-line");
 	it++;
 
-	int len = ParseHexNumber<2>(it);
+	size_t len = ParseHexNumber<2>(it);
 	int address = ParseHexNumber<4>(it);
 	int type = ParseHexNumber<2>(it);
 
