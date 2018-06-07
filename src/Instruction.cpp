@@ -14,6 +14,7 @@ using std::string;
 #include "Project.h"
 #include "Sub.h"
 #include "Translate.h"
+#include "Config.h"
 
 InstructionInfo Instruction::InstructionInfos[] = 
 {
