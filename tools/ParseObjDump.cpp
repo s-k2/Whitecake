@@ -10,10 +10,11 @@ using namespace std;
 
 map<string, size_t> allSymbols;
 
-void ParseTokens(const vector<string> &tokens)
+void ParseTokens(vector<string> &tokens)
 {
-/*	if(tokens.back().front() == '_')
-		return;*/
+	// if the last column looks like: ".hidden some_symbol", remove the hidden
+	if(*(tokens.end() - 2) == ".hidden")
+		tokens.erase(tokens.end() - 2);
 
 	string section = *(tokens.end() - 3);
 	string type = *(tokens.end() - 4);
