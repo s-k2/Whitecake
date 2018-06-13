@@ -136,5 +136,8 @@
 #define	TR_EDIT_ALIASES_EXPLANATION	"Here you can give the existing variables and Ports names, to make your diagram more readable. Make a double-click on an item to change it or define a new one."
 #define	TR_ASSIGNMENT_EXPLANATION	"An assignment changes the value of an variable or port. You can make the new value depend on the value of another variable or pin and even modify this by mathematical expressions. With 'intVariable0 = intVariable1 + 1', intVariable0 has a value of one more than intVariable1"
 #define	TR_IF_EXPLANATION	"A condition executes the blocks at one of its side depending on a mathematical expression. Those expression may be equatations or inequatations. If the expression applies the yes-arrow is executed, else the no-arrow."
+#define	TR_NO_FORMULA_IN_ASSIGNMENT	"You have not entered any formula in the assignment-block. Please double-click on it, to change that!"
+#define	TR_PARAMTER_MISSING_IN_INSTRUCTION	"You have not entered any parameter for the instruction-block. Please double-click on it, to change that!"
+#define	TR_NO_CONDITION_IN_IFBLOCK	"You have not entered any condition in the if-block! Please double-click on it, to change that!"
 
 #endif /* TRANSLATE_EN_H */

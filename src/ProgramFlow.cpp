@@ -114,6 +114,9 @@ void EndBlock::OnPaint(Drawing *drawing, int flags)
 
 	drawing->PrintText(0, 0, Width, Height, TR_END, Stock::GuiFont,  
 		flags & PaintNotSelected ? Stock::DarkGrey : Stock::White);
+	
+	if(flags & PaintErrorMark)
+		drawing->DrawEllipse(-20, -20, Width + 40, Height + 40, Stock::ThickerCrimsonPen);
 
 	//if(this->GetInputConnectorCount() == 0) {
 	//	drawing->DrawLine(Width / 2 - 5, 0 - 5, Width / 2 + 5, 0 + 5,
@@ -197,6 +200,10 @@ void CallSub::OnPaint(Drawing *drawing, int flags)
 	drawing->PrintText(0, Height / 2, Width, Height / 2, 
 		GetCalledSub() != NULL ? GetCalledSub()->GetName() : "?", 
 		Stock::GuiFont,  flags & PaintNotSelected ? Stock::DarkGrey : Stock::White);
+	
+	if(flags & PaintErrorMark)
+		drawing->DrawEllipse(-20, -20, Width + 40, Height + 40, Stock::ThickerCrimsonPen);
+
 }
 
 bool CallSub::IsInItem(int x, int y)

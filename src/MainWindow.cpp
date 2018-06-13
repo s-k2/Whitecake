@@ -548,6 +548,7 @@ void MainWindow::Send()
 	Transfer transfer(GetProject(), GetNativeWindow());
 	ChartItem *offendingItem = transfer.GetOffendingItem();
 	if(offendingItem) {
+		offendingItem->GetSub()->ClearSelection();
 		offendingItem->GetSub()->SelectItem(offendingItem);
 		ShowSub(offendingItem->GetSub());
 		offendingItem->GetSub()->SetErrorItem(offendingItem);

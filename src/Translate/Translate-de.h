@@ -119,7 +119,7 @@
 #define	TR_SAVE_CHANGES	"Änderungen speichern?"
 #define	TR_FILE_COULD_NOT_READ_IS_IT_INVALID	"Datei konnte nicht gelesen werden?\nIst sie ungültig oder beschädigt?"
 #define	TR_READ_ERROR	"Lesefehler"
-#define	TR_MISSING_SUBNAME_IN_CALL	"Du hast einen Aufruf für ein Unterprogramm eingefügt, aber kein Unterprogramm festgelegt, das aufgerufen werden soll!"
+#define	TR_MISSING_SUBNAME_IN_CALL	"Du hast einen Aufruf für ein Unterprogramm eingefügt, aber kein Unterprogramm festgelegt, das aufgerufen werden soll! \n\nKlicke doppelt auf den markierten Block, um das zu ändern!"
 #define	TR_INVALID_NAME_SUPPLIED_JUST_CHARACTERS_AND_STARTING_WITH_THE_SECOND_NUMBERS_ARE_ALLOWED	"Du hast einen ungültigen Name angegeben!\nEs sind nur Buchstaben und erst ab dem zweiten Zeichen auch Zahlen erlaubt!"
 #define	TR_INVALID_NAME	"Ungültiger Name"
 #define	TR_CAN_NOT_DELETE_START_SUB	"Das Start-Unterprogramm kann nicht gelöscht werden"
@@ -136,5 +136,8 @@
 #define	TR_EDIT_ALIASES_EXPLANATION	"Hier kannst du den vorhandenen Variablen und Ports eigene Namen geben, damit dein Flussdiagramm noch verständlicher ist. Klicke doppelt auf einen Eintrag, um ihn zu verändern oder füge einen neuen hinzu."
 #define	TR_ASSIGNMENT_EXPLANATION	"Eine Zuweisung gibt einer Variablen oder einem Port einen neuen Wert. Dabei kannst du den neuen Wert auch wieder von einer anderen Variable bzw. Pin abhängig machen oder sogar mit mathematischen Ausdrücken ändern. Mit 'intVariable0 = intVariable1 + 1' hat intVariable0 einen um 1 höheren Wert als intVariable1."
 #define	TR_IF_EXPLANATION	"Eine Bedingung führt abhängig von einem mathematischen Ausdruck nur die Befehle an einem der beiden Pfeile aus. Die mathematischen Ausdrücke dürfen dabei als Gleichung oder Ungleichung formuliert sein. Trifft der Ausdruck zu, dann fährt das Programm mit dem Ja-Pfeil fort, sonst mit dem Nein-Pfeil."
+#define	TR_NO_FORMULA_IN_ASSIGNMENT	"Du hast keine mathematische Formel im Zuweisungsblock angegben. \n\nKlicke doppelt auf den markierten Block, um das zu ändern!"
+#define	TR_PARAMTER_MISSING_IN_INSTRUCTION	"Du hast keinen Paramter im Befehls-Block angegeben.\n\nKlicke doppelt auf den markierten Block, um das zu ändern!"
+#define	TR_NO_CONDITION_IN_IFBLOCK	"Du hast keine Bedingung im Bedingungsblock angegeben.\n\nKlicke doppelt auf den markierten Block, um das zu ändern!"
 
 #endif /* TRANSLATE_DE_H */

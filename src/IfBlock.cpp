@@ -50,6 +50,9 @@ void IfBlock::OnPaint(Drawing *drawing, int flags)
 		flags & PaintNotSelected ? Stock::DarkGrey : Stock::Black, Drawing::LeftTop);
 	drawing->PrintText(Width / 2 + 5, Height + 5, 50, 18, TR_YES, Stock::GuiFont, 
 		flags & PaintNotSelected ? Stock::DarkGrey : Stock::Black, Drawing::LeftTop);
+
+	if(flags & PaintErrorMark)
+		drawing->DrawEllipse(-20, -20, Width + 40, Height + 40, Stock::ThickerCrimsonPen);
 }
 
 bool IfBlock::IsInItem(int x, int y)
@@ -98,6 +101,8 @@ void IfBlock::WriteBasic(BasicWriter *basic)
 		throw WriteBasicException(yesConnector, TR_YES_SIDE_NOT_CONNECTED_WITH_A_BLOCK);
 	if(noConnector->GetEndItem() == NULL)
 		throw WriteBasicException(noConnector, TR_NO_SIDE_NOT_CONNECTED_WITH_A_BLOCK);
+	if(!comp.IsValid(GetProject()->GetMicrocontroller()))
+		throw WriteBasicException(noConnector, TR_NO_CONDITION_IN_IFBLOCK);
 
 	// we need to give each side an id if it has not already one
 	bool printYes = false;
@@ -137,6 +142,8 @@ void IfBlock::WriteCode(Compiler::Program &program)
 		throw WriteBasicException(yesConnector, TR_YES_SIDE_NOT_CONNECTED_WITH_A_BLOCK);
 	if(noConnector->GetEndItem() == NULL)
 		throw WriteBasicException(noConnector, TR_NO_SIDE_NOT_CONNECTED_WITH_A_BLOCK);
+	if(!comp.IsValid(GetProject()->GetMicrocontroller()))
+		throw WriteBasicException(this, TR_NO_CONDITION_IN_IFBLOCK);
 
 	std::string noLocationLabel = program.GenerateSymbolName();
 	comp.WriteCode(program, noLocationLabel);

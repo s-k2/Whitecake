@@ -375,6 +375,9 @@ void BlockConnector::OnPaint(Drawing *drawing, int flags)
 		drawing->DrawLine(it.GetCurX() - 5, it.GetCurY() + 5, it.GetCurX() + 5, it.GetCurY() - 5, *pen);
 	}
 
+	if(flags & PaintErrorMark)
+		drawing->DrawEllipse(it.GetCurX() - 15, it.GetCurY() - 15, 30, 30, Stock::ThickerCrimsonPen);
+
 	drawing->RestoreTranslateAndScale();
 }
 

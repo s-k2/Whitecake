@@ -40,6 +40,9 @@ void Assignment::OnPaint(Drawing *drawing, int flags)
 		text = "?";
 	drawing->PrintText(0, 0, Width, Height, text, Stock::GuiFont, 
 		flags & PaintNotSelected ? Stock::DarkGrey : Stock::White);
+
+	if(flags & PaintErrorMark)
+		drawing->DrawEllipse(-20, -20, Width + 40, Height + 40, Stock::ThickerCrimsonPen);
 }
 
 bool Assignment::IsInItem(int x, int y)
@@ -82,7 +85,7 @@ void Assignment::ReadXML(XMLReader *xml,
 void Assignment::WriteBasic(BasicWriter *basic)
 {
 	if(!assignment.IsValid(GetProject()->GetMicrocontroller()))
-		throw WriteBasicException(this, TR_TODO_THROW_ERROR_HERE_); // TODO: Write correct error message
+		throw WriteBasicException(this, TR_NO_FORMULA_IN_ASSIGNMENT);
 
 	basic->PutCode(assignment.GetString());
 
@@ -93,7 +96,7 @@ void Assignment::WriteBasic(BasicWriter *basic)
 void Assignment::WriteCode(Compiler::Program &program)
 {
 	if(!assignment.IsValid(GetProject()->GetMicrocontroller()))
-		throw WriteBasicException(this, TR_TODO_THROW_ERROR_HERE_); // TODO: Write correct error message
+		throw WriteBasicException(this, TR_NO_FORMULA_IN_ASSIGNMENT);
 
 	assignment.WriteCode(program);
 

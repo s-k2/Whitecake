@@ -309,7 +309,6 @@ bool ParsedParameter::IsValid(int filter) const
 	case VariableName:
 		return(IsValidVariable(filter));
 	default:
-		//errorMessage = TR_YOU_NEED_TO_FILL_IN_SOMETHING_HERE;
 		return(false);
 	}
 }

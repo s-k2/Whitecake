@@ -183,6 +183,9 @@ void Instruction::OnPaint(Drawing *drawing, int flags)
 
 	drawing->PrintText(Width * 0.05, 0, Width * 0.85, Height, infoStr, Stock::GuiFont,  
 		flags & PaintNotSelected ? Stock::DarkGrey : Stock::White);
+
+	if(flags & PaintErrorMark)
+		drawing->DrawEllipse(-20, -20, Width + 40, Height + 40, Stock::ThickerCrimsonPen);
 }
 
 bool Instruction::IsInItem(int x, int y)
@@ -268,12 +271,16 @@ void Instruction::WriteCode(Compiler::Program &program)
 	std::vector<Compiler::ValueExpression> args;
 	for(size_t i = 0; i < info->argsCount; i++) {
 		ParsedParameter arg(GetProject()->GetMicrocontroller()->GetVariables(), this->args[i]);
+		if(!arg.IsValid(info->args[i].type))
+			throw WriteBasicException(this, TR_PARAMTER_MISSING_IN_INSTRUCTION);
 		args.emplace_back(arg.ToValueExpression());
 	}
 
 	if(info->ret == NoRet)
 		program.Call(Compiler::UnknownAddress(info->idString), args);
 	else {
+		if(GetResult().empty())
+			throw WriteBasicException(this, TR_PARAMTER_MISSING_IN_INSTRUCTION);
 		string resultVariableNoAlias = GetProject()->GetMicrocontroller()->GetVariables().GetAliasDestination(GetResult());
 		if(resultVariableNoAlias.empty())
 			resultVariableNoAlias = GetResult();
