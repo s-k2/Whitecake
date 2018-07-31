@@ -30,9 +30,8 @@ Sub::Sub(Project *project)
 	this->project = project;
 
 	CanvasInit(&canvas);
-	CanvasSetViewOrigin(GetCanvas(), -96, -96);
 
-	startBlock = new StartBlock(this, 96, 96);
+	startBlock = new StartBlock(this, 320, 32);
 
 	if(project->GetChartsCount() == 0)
 		name = TR_START;
