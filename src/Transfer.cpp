@@ -151,7 +151,7 @@ void Transfer::SendThread(void *transferVoid)
 			BascomUploader uploader(theSettings.GetSerialPort(), theSettings.GetSerialBaud(), 
 				transfer->programToSend->GetBinary(), &transfer->threadStop, &transfer->threadState);
 		else
-			ArduinoUploader uploader(theSettings.GetSerialPort(), theSettings.GetSerialBaud(), 
+			ArduinoUploader uploader(theSettings.GetSerialPort(), 
 				transfer->programToSend->GetBinary(), &transfer->threadStop, &transfer->threadState);
 	} catch(UploaderException e) {
 		transfer->sendErrorMessage = e.GetMessage();
