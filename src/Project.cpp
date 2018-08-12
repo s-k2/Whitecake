@@ -7,7 +7,6 @@ using std::vector;
 
 #include "ChartItem.h"
 #include "Sub.h"
-#include "Helper/BasicWriter.h"
 #include "Compiler.h"
 #include "Helper/XMLReader.h"
 #include "Helper/XMLWriter.h"
@@ -87,9 +86,7 @@ bool Project::ReadXML(const string &path)
 		xml.OpenTag("Project");
 
 		microcontroller = new Microcontroller(&xml);
-		// check if this microcontroller can be used with the settings of the ini-file
-		if(microcontroller->GetRegFileName() != theSettings.GetRegFileName())
-			return(false); // microcontroller will be deletet in destructor
+		// TODO: check for correct microcontroller
 
 		xml.OpenTag("Subs");
 		while(xml.GetCurrentNode()->GetChildCount() > 0) {
@@ -116,31 +113,6 @@ bool Project::ReadXML(const string &path)
 	}
 
 	return(true);
-}
-
-void Project::WriteBasic(const string &path)
-{
-	BasicWriter basic(path);
-	if(!basic.IsOk())
-		return;
-
-	// first put the header
-	microcontroller->WriteBasicHeader(&basic);
-
-	// forward-declare all subs
-	for(vector<Sub *>::iterator it = charts.begin(); it != charts.end(); it++)
-		basic.DeclareSub(Sub::FunctionPrefix + (*it)->GetName());
-	
-	// and call the first (main) sub
-	if(charts.front())
-		basic.CallSub(Sub::FunctionPrefix + charts.front()->GetName());
-
-	// and end the program to prevent some weird endless loops, ...
-	basic.PutCode("End");
-
-	// and now the code
-	for(vector<Sub *>::iterator it = charts.begin(); it != charts.end(); it++)
-		(*it)->WriteBasic(&basic);
 }
 
 void Project::WriteCode(Compiler::Program &program)

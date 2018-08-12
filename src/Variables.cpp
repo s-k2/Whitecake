@@ -3,7 +3,6 @@
 using std::string;
 using std::vector;
 
-#include "Helper/BasicWriter.h"
 #include "Helper/XMLReader.h"
 #include "Helper/XMLWriter.h"
 #include "Settings.h"
@@ -23,36 +22,6 @@ Variable::Variable(const string &name, Variable *target)
 	while(target->target != NULL) // TODO: Prevent endless loops here!!!
 		target = target->target;
 	this->target = target;
-}
-
-void Variable::WriteBasicDeclaration(BasicWriter *writer) const
-{
-	if(target != NULL) {
-		if(target->type != ADCChannel)
-			writer->PutCodeVarArgs("%s Alias %s", name.c_str(), target->name.c_str());
-		else
-			writer->PutCodeVarArgs("CONST %s = %c", name.c_str(), target->name.size() == 4 ? target->name.at(3) : '?');
-		return;
-	}
-
-	switch(type) {
-	case IntegerVariable:
-		writer->PutCodeVarArgs("Dim %s as Integer", name.c_str());
-		break;
-	case ByteVariable:
-		writer->PutCodeVarArgs("Dim %s as Byte", name.c_str());
-		break;
-	case IOPort:
-		writer->PutCodeVarArgs("Config %s = Output", name.c_str());
-		break;
-	case IOPin:
-		writer->PutCodeVarArgs("Config %s = Input", name.c_str());
-		break;
-	case ADCChannel:
-		writer->PutCodeVarArgs("CONST %s = %c", name.c_str(), name.size() == 4 ? name.at(3) : '?');
-	default:
-		break;		
-	}
 }
 
 Variables::Variables()
@@ -226,21 +195,6 @@ int Variables::GetCastableTypes(int destType) const
 	default:
 		return(0);
 	}
-}
-
-void Variables::WriteBasicHeader(BasicWriter *writer)
-{
-	if(usingADC) {
-		writer->PutCodeVarArgs("Config ADC = Single, Prescaler = Auto, Reference = AVCC");
-	}
-
-	for(auto it = variables.begin(); it != variables.end(); ++it)
-		(*it)->WriteBasicDeclaration(writer);
-
-	// now activate a pull-up for each IO-pin
-	for(auto it = variables.begin(); it != variables.end(); ++it)
-		if(!(*it)->IsAlias() && (*it)->GetType() == IOPin && (*it)->GetName().substr(0, 3) == "PIN")
-			writer->PutCodeVarArgs("Set PORT%s", (*it)->GetName().substr(3).c_str());
 }
 
 vector<string> Variables::GetAllAliases() const

@@ -143,18 +143,6 @@ void ChartItem::ReadXML(IdItemMap *refs)
 	// only some derived classes overwrite this method with real code
 }
 
-void ChartItem::WriteBasic(BasicWriter *basic)
-{
-	// continue with the dependend items
-	if(dependentItems[0] != NULL) {
-		dependentItems[0]->WriteBasic(basic);
-
-		if(dependentItems[1] != NULL) {
-			dependentItems[1]->WriteBasic(basic);
-		}
-	}
-}
-
 void ChartItem::WriteCode(Compiler::Program &program)
 {
 	// continue with the dependend items

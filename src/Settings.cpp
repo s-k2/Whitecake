@@ -44,14 +44,6 @@ void Settings::SetDefaults()
 	serialBaud = 2400;
 #endif /* defined (WHITECAKE_FOR_TINYBAS) || defined (WHITECAKE_FOR_TINYTICK) */
 
-	regFileName = "m328pdef.dat";
-	crystalFrequency = 16000000;
-	hardwareStack = 40;
-	softwareStack = 16;
-	frameSize = 32;
-	usingHardwareUART = true;
-	// softUARTIn and softUARTOut are initialized with ""
-
 	for(size_t i = 0; i < 32; i++)
 		integerVariables.push_back("var" + String::IntToStr(i));
 //	for(size_t i = 0; i < 8; i++)
@@ -126,44 +118,6 @@ void Settings::OnKey(string key, string value)
 		}
 	} else if(key == "compilerPath") {
 		compilerPath = value;
-	} else if(key == "regFileName") {
-		regFileName = value;
-	} else if(key == "crystalFrequency") {
-		if(!String::ToInt(value, 10, &crystalFrequency)) {
-			NativeMessageBox(NULL, TR_FOUND_INVALID_KEY_ + key + TR__WITH_VALUE_ + value + 
-				TR__IN_CONFIGURATION_FILEI_WILL_IGNORE_IT, TR_CONFIGURATION_ERROR);
-		}
-	} else if(key == "hardwareStack") {
-		if(!String::ToInt(value, 10, &hardwareStack)) {
-			NativeMessageBox(NULL, TR_FOUND_INVALID_KEY_ + key + TR__WITH_VALUE_ + value + 
-				TR__IN_CONFIGURATION_FILEI_WILL_IGNORE_IT, TR_CONFIGURATION_ERROR);
-		}
-	} else if(key == "softwareStack") {
-		if(!String::ToInt(value, 10, &softwareStack)) {
-			NativeMessageBox(NULL, TR_FOUND_INVALID_KEY_ + key + TR__WITH_VALUE_ + value + 
-				TR__IN_CONFIGURATION_FILEI_WILL_IGNORE_IT, TR_CONFIGURATION_ERROR);
-		}
-	} else if(key == "frameSize") {
-		if(!String::ToInt(value, 10, &frameSize)) {
-			NativeMessageBox(NULL, TR_FOUND_INVALID_KEY_ + key + TR__WITH_VALUE_ + value + 
-				TR__IN_CONFIGURATION_FILEI_WILL_IGNORE_IT, TR_CONFIGURATION_ERROR);
-		}
-	} else if(key == "usingHardwareUART") {
-		int usingUARTInt = 0;
-		if(!String::ToInt(value, 10, &usingUARTInt)) {
-			NativeMessageBox(NULL, TR_FOUND_INVALID_KEY_ + key + TR__WITH_VALUE_ + value + 
-				TR__IN_CONFIGURATION_FILEI_WILL_IGNORE_IT, TR_CONFIGURATION_ERROR);
-		}
-		usingHardwareUART = usingUARTInt != 0;
-	} else if(key == "softUART") {
-		vector<string> softUART;
-		String::Tokenize(value, softUART, ' ');
-		if(softUART.size() != 2) {
-			NativeMessageBox(NULL, TR_FOUND_INVALID_KEY_ + key + TR__WITH_VALUE_ + value + 
-				TR__IN_CONFIGURATION_FILEI_WILL_IGNORE_IT, TR_CONFIGURATION_ERROR);
-		}
-		softUARTIn = softUART[0];
-		softUARTOut = softUART[1];
 	} else if(key == "integerVariables") {
 		integerVariables.clear();
 		String::Tokenize(value, integerVariables, ' ');
@@ -259,12 +213,6 @@ void Settings::WriteConfig()
 	compilerInProgramDir = compilerInProgramDir + NativePathSeparator + "bascomp.exe";
 	if(compilerPath != compilerInProgramDir)
 		fprintf(out, "compilerPath = %s\n", compilerPath.c_str());
-	fprintf(out, "regFileName = %s\n", regFileName.c_str());
-	fprintf(out, "crystalFrequency = %d\n", crystalFrequency);
-	fprintf(out, "hardwareStack = %d\n", hardwareStack);
-	fprintf(out, "softwareStack = %d\n", softwareStack);
-	fprintf(out, "frameSize = %d\n", frameSize);
-	fprintf(out, "usingHardwareUART = %d\n", usingHardwareUART ? 1 : 0);
 	fprintf(out, "integerVariables = %s\n", String::Join(integerVariables, " ").c_str());
 	fprintf(out, "byteVariables = %s\n", String::Join(byteVariables, " ").c_str());
 	fprintf(out, "ioPorts = %s\n", String::Join(ioPorts, " ").c_str());

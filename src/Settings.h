@@ -24,28 +24,6 @@ public:
 	inline void SetSerialBaud(int value)
 		{ serialBaud = value; changed = true; };
 
-	inline const std::string &GetCompilerPath() const
-		{ return(compilerPath); };
-	inline void SetCompilerPath(const std::string &value)
-		{ compilerPath = value; changed = true; };
-
-	inline const std::string &GetRegFileName() const
-		{ return(regFileName); };
-	inline int GetCrystalFreqency() const
-		{ return(crystalFrequency); };
-	inline int GetHardwareStack() const
-		{ return(hardwareStack); };
-	inline int GetSoftwareStack() const
-		{ return(softwareStack); };
-	inline int GetFrameSize() const
-		{ return(frameSize); };
-	inline bool GetUsingHardwareUART() const
-		{ return(usingHardwareUART); };
-	inline const std::string &GetSoftUARTIn()
-		{ return(softUARTIn); };
-	inline const std::string &GetSoftUARTOut()
-		{ return(softUARTOut); };
-
 	inline const std::vector<std::string> &GetIntegerVariables() const
 		{ return(integerVariables); };
 	const std::vector<std::string> &GetByteVariables() const
@@ -70,15 +48,6 @@ private:
 
 	std::string compilerPath;
 
-	std::string regFileName;
-	int crystalFrequency;
-	int hardwareStack;
-	int softwareStack;
-	int frameSize;
-	bool usingHardwareUART;
-	std::string softUARTIn;
-	std::string softUARTOut;
-	
 	std::vector<std::string> integerVariables;
 	std::vector<std::string> byteVariables;
 	std::vector<std::string> ioPorts;

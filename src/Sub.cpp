@@ -14,7 +14,7 @@ using std::string;
 #include "ProgramBlock.h"
 #include "ProgramFlow.h"
 #include "Project.h"
-#include "Helper/BasicWriter.h"
+#include "CodeWriteException.h"
 #include "Helper/String.h"
 #include "Helper/XMLWriter.h"
 #include "Helper/XMLReader.h"
@@ -177,34 +177,6 @@ void Sub::UpdateItemRefs(Canvas *canvas, CanvasItem *item, void *userData)
 	chartItem->ReadXML(refs);
 }
 
-void Sub::ClearItemIdAndCheckUnconnected(Canvas *canvas, CanvasItem *item, void *userData)
-{
-	register ChartItem *chartItem = (ChartItem *) item->itemData;
-	chartItem->SetId(0);
-
-	// if there is no input connector and this is not the start-block,
-	// raise a warning about this unused block
-	if(chartItem->GetInputConnectorCount() == 0 && 
-		chartItem->HasConnectionPoint())
-	{
-		throw WriteBasicException(chartItem, TR_BLOCK_NOT_USED_FROM_ANYWHERE);
-	}
-}
-
-void Sub::WriteBasic(BasicWriter *basic)
-{
-
-	basic->StartSub(FunctionPrefix + GetName());
-
-	// reset the item-id for every block and check if there
-	// is one that has no input-connector. If so, raise an 
-	// exception (this is meant to be a warning to the user)
-	CanvasForeachItem(GetCanvas(), ClearItemIdAndCheckUnconnected, NULL);
-	startBlock->WriteBasic(basic);
-
-	basic->EndSub();
-}
-
 void Sub::ClearItemLabelAndCheckUnconnected(Canvas *canvas, CanvasItem *item, void *userData)
 {
 	register ChartItem *chartItem = (ChartItem *) item->itemData;
@@ -215,7 +187,7 @@ void Sub::ClearItemLabelAndCheckUnconnected(Canvas *canvas, CanvasItem *item, vo
 	if(chartItem->GetInputConnectorCount() == 0 && 
 		chartItem->HasConnectionPoint())
 	{
-		throw WriteBasicException(chartItem, TR_BLOCK_NOT_USED_FROM_ANYWHERE);
+		throw CodeWriteException(chartItem, TR_BLOCK_NOT_USED_FROM_ANYWHERE);
 	}
 }
 

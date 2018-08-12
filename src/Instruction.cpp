@@ -5,7 +5,7 @@ using std::string;
 
 #include "BlockConnector.h"
 #include "Expressions.h"
-#include "Helper/BasicWriter.h"
+#include "CodeWriteException.h"
 #include "Helper/Geometry.h"
 #include "Helper/String.h"
 #include "Helper/XMLReader.h"
@@ -247,32 +247,13 @@ void Instruction::ReadXML(XMLReader *xml,
 	xml->CloseTag("Instruction");
 }
 
-void Instruction::WriteBasic(BasicWriter *basic)
-{
-	string code = info->basicCode;
-	String::Replace(&code, "%1%", args[0]);
-	String::Replace(&code, "%2%", args[1]);
-	String::Replace(&code, "%3%", args[2]);
-	String::Replace(&code, "%4%", result);
-	if(GetProject()->GetMicrocontroller()->GetSoftUARTOutFile().empty()) // no soft-uart used
-		String::Replace(&code, "%SOFTUARTOUT,%", "");
-	else
-		String::Replace(&code, "%SOFTUARTOUT,%", GetProject()->GetMicrocontroller()->GetSoftUARTOutFile() + ",");
-	String::Replace(&code, "%SOFTUARTIN%", GetProject()->GetMicrocontroller()->GetSoftUARTInFile());
-
-	basic->PutCode(code);
-
-	// continue with the dependend items
-	ChartItem::WriteBasic(basic);
-}
-
 void Instruction::WriteCode(Compiler::Program &program)
 {
 	std::vector<Compiler::ValueExpression> args;
 	for(size_t i = 0; i < info->argsCount; i++) {
 		ParsedParameter arg(GetProject()->GetMicrocontroller()->GetVariables(), this->args[i]);
 		if(!arg.IsValid(info->args[i].type))
-			throw WriteBasicException(this, TR_PARAMTER_MISSING_IN_INSTRUCTION);
+			throw CodeWriteException(this, TR_PARAMTER_MISSING_IN_INSTRUCTION);
 		args.emplace_back(arg.ToValueExpression());
 	}
 
@@ -280,7 +261,7 @@ void Instruction::WriteCode(Compiler::Program &program)
 		program.Call(Compiler::UnknownAddress(info->idString), args);
 	else {
 		if(GetResult().empty())
-			throw WriteBasicException(this, TR_PARAMTER_MISSING_IN_INSTRUCTION);
+			throw CodeWriteException(this, TR_PARAMTER_MISSING_IN_INSTRUCTION);
 		string resultVariableNoAlias = GetProject()->GetMicrocontroller()->GetVariables().GetAliasDestination(GetResult());
 		if(resultVariableNoAlias.empty())
 			resultVariableNoAlias = GetResult();

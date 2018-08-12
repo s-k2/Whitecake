@@ -7,7 +7,7 @@ using std::pair;
 
 #include "Sub.h"
 #include "BlockConnector.h"
-#include "Helper/BasicWriter.h"
+#include "CodeWriteException.h"
 #include "Helper/XMLReader.h"
 #include "Helper/XMLWriter.h"
 #include "Compiler.h"
@@ -74,14 +74,6 @@ void StartBlock::ReadXML(XMLReader *xml,
 	// but even if not, it's not that problem, but it should be funny to see
 	// two start blocks in the chart (and just one beeing the entry-point)
 	GetSub()->SetStartBlock(this);
-}
-
-void StartBlock::WriteBasic(BasicWriter *basic)
-{
-	basic->PutCode("' Start here");
-
-	// continue with the dependend items
-	ChartItem::WriteBasic(basic);
 }
 
 void StartBlock::WriteCode(Compiler::Program &program)
@@ -155,11 +147,6 @@ void EndBlock::ReadXML(XMLReader *xml,
 	xml->OpenTag("EndBlock");
 	ChartItem::ReadXML(xml, subRefs, idRefs);
 	xml->CloseTag("EndBlock");
-}
-
-void EndBlock::WriteBasic(BasicWriter *basic)
-{
-	basic->PutCode("Exit Sub");
 }
 
 void EndBlock::WriteCode(Compiler::Program &program)
@@ -243,21 +230,10 @@ void CallSub::ReadXML(XMLReader *xml,
 	xml->CloseTag("CallSub");
 }
 
-void CallSub::WriteBasic(BasicWriter *basic)
-{
-	if(GetCalledSub() == NULL)
-		throw WriteBasicException(this, TR_MISSING_SUBNAME_IN_CALL);
-
-	basic->CallSub(Sub::FunctionPrefix + GetCalledSub()->GetName());
-	
-	// continue with the dependend items
-	ChartItem::WriteBasic(basic);
-}
-
 void CallSub::WriteCode(Compiler::Program &program)
 {
 	if(GetCalledSub() == NULL)
-		throw WriteBasicException(this, TR_MISSING_SUBNAME_IN_CALL);
+		throw CodeWriteException(this, TR_MISSING_SUBNAME_IN_CALL);
 
 	program.Call(Compiler::UnknownAddress(calledSub->GetName()));
 	ChartItem::WriteCode(program);

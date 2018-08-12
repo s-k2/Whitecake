@@ -22,7 +22,6 @@ public:
 	void WriteXML(XMLWriter *xml);
 	void ReadXML(XMLReader *xml, 
 		SubReferenceVector *subRefs, IdItemMap *idRefs);
-	void WriteBasic(BasicWriter *basic);
 
 	const std::string &GetComment() const
 		{ return(comment); };

@@ -8,7 +8,7 @@ using std::min;
 using std::vector;
 
 #include "Sub.h"
-#include "Helper/BasicWriter.h"
+#include "CodeWriteException.h"
 #include "Compiler.h"
 #include "Helper/XMLReader.h"
 #include "Helper/XMLWriter.h"
@@ -510,39 +510,6 @@ void BlockConnector::ReadXML(IdItemMap *refs)
 
 // In most cases a connector does not generate basic-code
 // But if the endItem is referenced several times we need to create a goto!
-void BlockConnector::WriteBasic(BasicWriter *basic)
-{
-	// if there is no end item, we do nothing here
-	if(endItem) {
-		// the endItem has been printed already if it has an id != 0
-		if(endItem->GetId() != 0) {
-			// so just go to this item
-			basic->GotoLabel(endItem->GetId());
-		} else { // this item has not been referenced before...
-
-			// are there any further references to this item? If so, just put
-			// a label before the item's code that it can be referenced again
-
-			// we use the size of the input connectors-vector to know this.
-			// Although that number might be too big if the other connectors 
-			// that end here too come from items that are not connected with 
-			// the start-item. But this is not a real problem because this
-			// would just mean that there are some unused labels in the code...
-			if(endItem->GetInputConnectorCount() > 1) {
-				endItem->SetId(basic->CreateLabelId());
-				basic->PutLabel(endItem->GetId());
-			}
-
-			// ...print it
-			endItem->WriteBasic(basic);
-		}
-	} else {
-		throw WriteBasicException(this, TR_CONNECTOR_NOT_CONNECTED_WITH_ANOTHER_BLOCK);
-	}
-}
-
-// In most cases a connector does not generate basic-code
-// But if the endItem is referenced several times we need to create a goto!
 void BlockConnector::WriteCode(Compiler::Program &program)
 {
 	// if there is no end item, we do nothing here
@@ -568,6 +535,6 @@ void BlockConnector::WriteCode(Compiler::Program &program)
 			endItem->WriteCode(program);
 		}
 	} else {
-		throw WriteBasicException(this, TR_CONNECTOR_NOT_CONNECTED_WITH_ANOTHER_BLOCK);
+		throw CodeWriteException(this, TR_CONNECTOR_NOT_CONNECTED_WITH_ANOTHER_BLOCK);
 	}
 }

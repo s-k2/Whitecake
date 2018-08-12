@@ -23,7 +23,6 @@ public:
 	void WriteXML(XMLWriter *xml);
 	void ReadXML(XMLReader *reader, 
 		SubReferenceVector *subRefs, IdItemMap *idRefs);
-	void WriteBasic(BasicWriter *basic);
 	void WriteCode(Compiler::Program &program);
 
 	static const int Width;

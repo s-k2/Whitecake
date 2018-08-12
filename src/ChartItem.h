@@ -11,7 +11,6 @@
 #include "Platform.h"
 #include "Sub.h"
 
-class BasicWriter;
 class BlockConnector;
 class XMLReader;
 class XMLWriter;
@@ -80,7 +79,6 @@ public:
 	virtual void ReadXML(XMLReader *reader, 
 		SubReferenceVector *subRefs, IdItemMap *idRefs);
 	virtual void ReadXML(IdItemMap *refs);
-	virtual void WriteBasic(BasicWriter *basic);
 	virtual void WriteCode(Compiler::Program &program);
 
 	// mark as deprecated

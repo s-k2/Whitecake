@@ -11,7 +11,6 @@
 #include "Platform.h"
 #include "Project.h"
 
-class BasicWriter;
 class Sub;
 class ChartItem;
 class ChartView;
@@ -48,7 +47,6 @@ public:
 	void ReadXML(XMLReader *reader, SubReferenceVector *subRefs);
 	ChartItem *CreateFromXMLChild(XMLReader *xml, 
 		SubReferenceVector *subRefs, IdItemMap *refs);
-	void WriteBasic(BasicWriter *basic);
 	void WriteCode(Compiler::Program &program);
 
 
@@ -101,7 +99,6 @@ private:
 	static void IdentifyItems(Canvas *canvas, 
 		CanvasItem *item, void *userData);
 	static void SaveItem(Canvas *canvas, CanvasItem *item, void *userData);
-	static void ClearItemIdAndCheckUnconnected(Canvas *canvas, CanvasItem *item, void *userData);
 	static void ClearItemLabelAndCheckUnconnected(Canvas *canvas, CanvasItem *item, void *userData);
 	static void UpdateItemRefs(Canvas *canvas, 
 		CanvasItem *item, void *userData);

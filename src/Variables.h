@@ -4,7 +4,6 @@
 #include <string>
 #include <vector>
 
-class BasicWriter;
 class XMLReader;
 class XMLWriter;
 
@@ -45,8 +44,6 @@ public:
 	inline Variable *GetTarget() const
 		{ return(target); };
 
-	void WriteBasicDeclaration(BasicWriter *writer) const;
-
 	inline void SetName(const std::string &newName)
 		{ name = newName; };
 	inline void SetTarget(Variable *newTarget)
@@ -67,7 +64,6 @@ public:
 
 	void Read(XMLReader *xml);
 	void Write(XMLWriter *xml);
-	void WriteBasicHeader(BasicWriter *writer);
 
 	bool AddAlias(const std::string &name, const std::string &destination);
 	bool UpdateAlias(const std::string &oldName, const std::string &newName, const std::string &destination);

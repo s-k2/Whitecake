@@ -3,8 +3,10 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 
 #include "Platform.h"
+#include "Compiler.h"
 
 class Project;
 class ChartItem;
@@ -20,11 +22,8 @@ public:
 private:
 	Project *project;
 	ChartItem *offendingItem;
-
-	std::string tmpDir;
-	std::string codePath;
-	std::string binFile;
-	std::string errorFile;
+	std::unique_ptr<Compiler::Program> programToSend;
+	
 
 	int threadStop; // 0 if thread may run, if GUI wants stop 1
 	int threadState; // > 0 if it's still running! 0 means done
@@ -33,9 +32,8 @@ private:
 	std::string compileErrorMessage;
 	std::string sendErrorMessage;
 
-	static void CompileAndSendThread(void *transferVoid);
+	static void SendThread(void *transferVoid);
 	void Compile();
-	bool ReadBinary(std::vector<unsigned char> &out);
 
 	friend class TransferDialog;
 };

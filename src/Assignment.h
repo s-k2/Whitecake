@@ -23,7 +23,6 @@ public:
 	void WriteXML(XMLWriter *xml);
 	void ReadXML(XMLReader *xml, 
 		SubReferenceVector *subRefs, IdItemMap *idRefs);
-	void WriteBasic(BasicWriter *basic);
 	void WriteCode(Compiler::Program &program);
 	inline const ParsedAssignment &GetAssignment()
 		{ return(assignment); };

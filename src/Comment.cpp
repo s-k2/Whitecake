@@ -70,10 +70,6 @@ void Comment::ReadXML(XMLReader *xml,
 	xml->CloseTag("Comment");
 }
 
-void Comment::WriteBasic(BasicWriter *basic)
-{
-}
-
 bool Comment::WantsDrag(int x, int y)
 {
 	return(false);

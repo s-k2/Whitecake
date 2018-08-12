@@ -6,7 +6,7 @@ using std::string;
 using std::vector;
 
 #include "BlockConnector.h"
-#include "Helper/BasicWriter.h"
+#include "CodeWriteException.h"
 #include "Helper/Geometry.h"
 #include "Helper/XMLReader.h"
 #include "Helper/XMLWriter.h"
@@ -92,58 +92,17 @@ void IfBlock::ReadXML(XMLReader *xml,
 	xml->CloseTag("IfBlock");
 }
 
-void IfBlock::WriteBasic(BasicWriter *basic)
-{
-	BlockConnector *yesConnector = (BlockConnector *) dependentItems[0];
-	BlockConnector *noConnector = (BlockConnector *) dependentItems[1];
-
-	if(yesConnector->GetEndItem() == NULL)
-		throw WriteBasicException(yesConnector, TR_YES_SIDE_NOT_CONNECTED_WITH_A_BLOCK);
-	if(noConnector->GetEndItem() == NULL)
-		throw WriteBasicException(noConnector, TR_NO_SIDE_NOT_CONNECTED_WITH_A_BLOCK);
-	if(!comp.IsValid(GetProject()->GetMicrocontroller()))
-		throw WriteBasicException(noConnector, TR_NO_CONDITION_IN_IFBLOCK);
-
-	// we need to give each side an id if it has not already one
-	bool printYes = false;
-	if(yesConnector->GetEndItem()->GetId() == 0) {
-		yesConnector->GetEndItem()->SetId(basic->CreateLabelId());
-		printYes = true;
-	}
-	
-	bool printNo = false;
-	if(noConnector->GetEndItem()->GetId() == 0) {
-		noConnector->GetEndItem()->SetId(basic->CreateLabelId());
-		printNo = true;
-	}
-
-	basic->PutIf(comp.GetString(), 
-		yesConnector->GetEndItem()->GetId(), noConnector->GetEndItem()->GetId());
-
-	// just print if the code has not been printed already... to do this we cannot
-	// use ChartView::WriteBasic because it would not create the labels... 
-	if(printYes) {
-		basic->PutLabel(yesConnector->GetEndItem()->GetId());
-		yesConnector->GetEndItem()->WriteBasic(basic);
-	}
-	
-	if(printNo) {
-		basic->PutLabel(noConnector->GetEndItem()->GetId());
-		noConnector->GetEndItem()->WriteBasic(basic);
-	}
-}
-
 void IfBlock::WriteCode(Compiler::Program &program)
 {
 	BlockConnector *yesConnector = (BlockConnector *) dependentItems[0];
 	BlockConnector *noConnector = (BlockConnector *) dependentItems[1];
 
 	if(yesConnector->GetEndItem() == NULL)
-		throw WriteBasicException(yesConnector, TR_YES_SIDE_NOT_CONNECTED_WITH_A_BLOCK);
+		throw CodeWriteException(yesConnector, TR_YES_SIDE_NOT_CONNECTED_WITH_A_BLOCK);
 	if(noConnector->GetEndItem() == NULL)
-		throw WriteBasicException(noConnector, TR_NO_SIDE_NOT_CONNECTED_WITH_A_BLOCK);
+		throw CodeWriteException(noConnector, TR_NO_SIDE_NOT_CONNECTED_WITH_A_BLOCK);
 	if(!comp.IsValid(GetProject()->GetMicrocontroller()))
-		throw WriteBasicException(this, TR_NO_CONDITION_IN_IFBLOCK);
+		throw CodeWriteException(this, TR_NO_CONDITION_IN_IFBLOCK);
 
 	std::string noLocationLabel = program.GenerateSymbolName();
 	comp.WriteCode(program, noLocationLabel);

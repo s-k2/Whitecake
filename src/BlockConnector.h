@@ -65,7 +65,6 @@ public:
 	void WriteXML(XMLWriter *xml);
 	void ReadXML(XMLReader *reader, SubReferenceVector *subRefs, IdItemMap *idRefs);
 	void ReadXML(IdItemMap *refs);
-	void WriteBasic(BasicWriter *basic);
 	void WriteCode(Compiler::Program &program);
 
 private:

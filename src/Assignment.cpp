@@ -6,7 +6,7 @@ using std::string;
 using std::vector;
 
 #include "BlockConnector.h"
-#include "Helper/BasicWriter.h"
+#include "CodeWriteException.h"
 #include "Helper/XMLReader.h"
 #include "Helper/XMLWriter.h"
 #include "Microcontroller.h"
@@ -82,21 +82,10 @@ void Assignment::ReadXML(XMLReader *xml,
 	xml->CloseTag("Assignment");
 }
 
-void Assignment::WriteBasic(BasicWriter *basic)
-{
-	if(!assignment.IsValid(GetProject()->GetMicrocontroller()))
-		throw WriteBasicException(this, TR_NO_FORMULA_IN_ASSIGNMENT);
-
-	basic->PutCode(assignment.GetString());
-
-	// continue with the dependend items
-	ChartItem::WriteBasic(basic);
-}
-
 void Assignment::WriteCode(Compiler::Program &program)
 {
 	if(!assignment.IsValid(GetProject()->GetMicrocontroller()))
-		throw WriteBasicException(this, TR_NO_FORMULA_IN_ASSIGNMENT);
+		throw CodeWriteException(this, TR_NO_FORMULA_IN_ASSIGNMENT);
 
 	assignment.WriteCode(program);
 

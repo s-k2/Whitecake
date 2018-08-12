@@ -28,7 +28,6 @@ public:
 
 	bool WriteXML(const std::string &path);
 	bool ReadXML(const std::string &path);
-	void WriteBasic(const std::string &path);
 	void WriteCode(Compiler::Program &program);
 
 	inline Microcontroller *GetMicrocontroller()
