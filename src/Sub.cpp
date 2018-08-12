@@ -30,6 +30,7 @@ Sub::Sub(Project *project)
 	this->project = project;
 
 	CanvasInit(&canvas);
+	CanvasSetViewOrigin(GetCanvas(), 0, 0);
 
 	startBlock = new StartBlock(this, 320, 32);
 
@@ -45,8 +46,7 @@ Sub::Sub(Project *project, XMLReader *reader,
 	this->project = project;
 
 	CanvasInit(&canvas);
-
-	CanvasSetViewOrigin(GetCanvas(), -96, -96);
+	CanvasSetViewOrigin(GetCanvas(), 0, 0);
 
 	ReadXML(reader, subRefs);
 }
