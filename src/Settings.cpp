@@ -46,8 +46,6 @@ void Settings::SetDefaults()
 
 	for(size_t i = 0; i < 32; i++)
 		integerVariables.push_back("var" + String::IntToStr(i));
-//	for(size_t i = 0; i < 8; i++)
-//		byteVariables.push_back("byteVar" + String::IntToStr(i));
 	for(size_t i = 0; i < 8; i++)
 		ioPorts.push_back("PORTB." + String::IntToStr(i));
 	for(size_t i = 6; i < 7; i++)
@@ -121,9 +119,6 @@ void Settings::OnKey(string key, string value)
 	} else if(key == "integerVariables") {
 		integerVariables.clear();
 		String::Tokenize(value, integerVariables, ' ');
-	} else if(key == "byteVariables") {
-		byteVariables.clear();
-		String::Tokenize(value, byteVariables, ' ');
 	} else if(key == "ioPorts") {
 		ioPorts.clear();
 		String::Tokenize(value, ioPorts, ' ');
@@ -214,7 +209,6 @@ void Settings::WriteConfig()
 	if(compilerPath != compilerInProgramDir)
 		fprintf(out, "compilerPath = %s\n", compilerPath.c_str());
 	fprintf(out, "integerVariables = %s\n", String::Join(integerVariables, " ").c_str());
-	fprintf(out, "byteVariables = %s\n", String::Join(byteVariables, " ").c_str());
 	fprintf(out, "ioPorts = %s\n", String::Join(ioPorts, " ").c_str());
 	fprintf(out, "ioPins = %s\n", String::Join(ioPins, " ").c_str());
 	fprintf(out, "adcChannels = %s\n", String::Join(adcChannels, " ").c_str());

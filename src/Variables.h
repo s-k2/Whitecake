@@ -10,7 +10,7 @@ class XMLWriter;
 #define NoArg 0
 #define NoRet 0
 #define IntegerVariable 1
-#define ByteVariable 2
+//#define ByteVariable 2
 #define CharVariable 4
 #define FixedString 8
 #define FixedInteger 16 // range -2^16 - 2^16
@@ -23,8 +23,8 @@ class XMLWriter;
 
 #define FixedIntegerMin (-32768)
 #define FixedIntegerMax 32767
-#define FixedByteMin 0
-#define FixedByteMax 255
+//#define FixedByteMin 0
+//#define FixedByteMax 255
 #define FixedAddressMin 0
 #define FixedAddressMax 65535
 

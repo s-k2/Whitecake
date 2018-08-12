@@ -26,8 +26,6 @@ public:
 
 	inline const std::vector<std::string> &GetIntegerVariables() const
 		{ return(integerVariables); };
-	const std::vector<std::string> &GetByteVariables() const
-		{ return(byteVariables); };;
 	const std::vector<std::string> &GetIOPorts() const
 		{ return(ioPorts); };;
 	const std::vector<std::string> &GetIOPins() const
@@ -49,7 +47,6 @@ private:
 	std::string compilerPath;
 
 	std::vector<std::string> integerVariables;
-	std::vector<std::string> byteVariables;
 	std::vector<std::string> ioPorts;
 	std::vector<std::string> ioPins;
 	std::vector<std::string> adcChannels;

@@ -28,8 +28,6 @@ Variables::Variables()
 {
 	for(size_t i = 0; i < theSettings.GetIntegerVariables().size(); i++)
 		variables.push_back(new Variable(theSettings.GetIntegerVariables()[i], IntegerVariable));
-	for(size_t i = 0; i < theSettings.GetByteVariables().size(); i++)
-		variables.push_back(new Variable(theSettings.GetByteVariables()[i], ByteVariable));
 	for(size_t i = 0; i < theSettings.GetIOPorts().size(); i++)
 		variables.push_back(new Variable(theSettings.GetIOPorts()[i], IOPort));
 	for(size_t i = 0; i < theSettings.GetIOPins().size(); i++)
@@ -64,13 +62,6 @@ void Variables::Read(XMLReader *xml)
 		variables.push_back(new Variable(varName, IntegerVariable));
 	}
 	xml->CloseTag("Integers");
-	xml->OpenTag("Bytes");
-	while(xml->GetCurrentNode()->GetChildCount() > 0) {
-		std::string varName;
-		xml->TextTag("Byte", &varName);
-		variables.push_back(new Variable(varName, ByteVariable));
-	}
-	xml->CloseTag("Bytes");
 	xml->OpenTag("Ports");
 	while(xml->GetCurrentNode()->GetChildCount() > 0) {
 		std::string varName;
@@ -119,12 +110,6 @@ void Variables::Write(XMLWriter *xml)
 			xml->TextTag("Integer", (*it)->GetName());
 	}
 	xml->CloseTag("Integers");
-	xml->OpenTag("Bytes");
-	for(vector<Variable *>::iterator it = variables.begin(); it != variables.end(); it++) {
-		if((*it)->GetType() == ByteVariable && !(*it)->IsAlias())
-			xml->TextTag("Byte", (*it)->GetName());
-	}
-	xml->CloseTag("Bytes");
 	xml->OpenTag("Ports");
 	for(vector<Variable *>::iterator it = variables.begin(); it != variables.end(); it++) {
 		if((*it)->GetType() == IOPort && !(*it)->IsAlias())
@@ -184,10 +169,9 @@ int Variables::GetCastableTypes(int destType) const
 {
 	switch(destType) {
 	case IntegerVariable:
-		return(IntegerVariable | ByteVariable | CharVariable | IOPin | FixedBit | FixedInteger | FixedByte | FixedAddress);
-	case ByteVariable:
+		return(IntegerVariable | CharVariable | IOPin | FixedBit | FixedInteger | FixedAddress);
 	case CharVariable:
-		return(ByteVariable | CharVariable | IOPin | FixedByte | FixedBit);
+		return(CharVariable | IOPin | FixedBit);
 	case IOPort:
 		return(IOPin | FixedBit);
 	case IOPin:
