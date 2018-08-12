@@ -169,9 +169,7 @@ int Variables::GetCastableTypes(int destType) const
 {
 	switch(destType) {
 	case IntegerVariable:
-		return(IntegerVariable | CharVariable | IOPin | FixedBit | FixedInteger | FixedAddress);
-	case CharVariable:
-		return(CharVariable | IOPin | FixedBit);
+		return(IntegerVariable | IOPin | FixedBit | FixedInteger);
 	case IOPort:
 		return(IOPin | FixedBit);
 	case IOPin:

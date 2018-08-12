@@ -40,8 +40,6 @@ int RightSideToken::GetType() const
 	} else if(IsLiteral()) {
 		if(GetLiteralValue() == 0 || GetLiteralValue() == 1)
 			return(FixedBit);
-		else if(GetLiteralValue() >= -128 && GetLiteralValue() <= 127)
-			return(FixedByte);
 		else
 			return(FixedInteger);
 	} else {
@@ -185,7 +183,7 @@ string ParsedAssignment::GetString(const string whitespace) const
 
 vector<string> ParsedAssignment::SuggestCompletions() const
 {
-	static const int AssignmentLeftFilter = IntegerVariable | CharVariable | IOPort;
+	static const int AssignmentLeftFilter = IntegerVariable | IOPort;
 	
 	if(!IsLeftSideValid()) {
 		return(variables->FormatOperands(AssignmentLeftFilter, "", " = "));
@@ -251,7 +249,7 @@ string ParsedCompare::GetString(const std::string whitespace) const
 
 vector<string> ParsedCompare::SuggestCompletion() const
 {
-	static const int LeftFilter = IntegerVariable | CharVariable | IOPort | IOPin;
+	static const int LeftFilter = IntegerVariable | IOPin;
 
 	if(!IsLeftSideValid()) {
 		return(variables->FormatOperands(LeftFilter));
@@ -316,8 +314,6 @@ bool ParsedParameter::IsValid(int filter) const
 bool ParsedParameter::IsValidNumLiteral(int filter) const
 {
 	if(numLiteralValue >= FixedIntegerMin && numLiteralValue <= FixedIntegerMax && (filter & FixedInteger)) {
-		return(true);
-	} else if(numLiteralValue >= FixedAddressMin && numLiteralValue <= FixedAddressMax && (filter & FixedAddress)) {
 		return(true);
 	} else {
 		/*if(filter & (FixedByte | FixedInteger | FixedAddress))
