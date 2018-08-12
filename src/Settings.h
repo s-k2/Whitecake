@@ -19,10 +19,6 @@ public:
 		{ return(serialPort); };
 	inline void SetSerialPort(const std::string &value)
 		{ serialPort = value; changed = true; };
-	inline int GetSerialBaud() const
-		{ return(serialBaud); };
-	inline void SetSerialBaud(int value)
-		{ serialBaud = value; changed = true; };
 
 	inline const std::vector<std::string> &GetIntegerVariables() const
 		{ return(integerVariables); };
@@ -42,9 +38,6 @@ private:
 	
 	std::string programmer;
 	std::string serialPort;
-	int serialBaud;
-
-	std::string compilerPath;
 
 	std::vector<std::string> integerVariables;
 	std::vector<std::string> ioPorts;
@@ -71,14 +64,9 @@ public:
 
 private:
 	NativeLabel *serialPortLabel;
-	NativeLabel *serialBaudLabel;
-	NativeLabel *compilerPathLabel;
 	NativeEdit *serialPortEdit;
-	NativeEdit *serialBaudEdit;
-	NativeEdit *compilerPathEdit;
 	NativeButton *okButton;
 	NativeButton *cancelButton;
 };
-
 
 #endif /* SETTINGS_H */

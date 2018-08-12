@@ -6,7 +6,7 @@
 class BascomUploader : public Uploader
 {
 public:
-	BascomUploader(std::string port, int baud, const std::vector<unsigned char> &program, int *threadStop, int *threadState);
+	BascomUploader(std::string port, const std::vector<unsigned char> &program, int *threadStop, int *threadState);
 
 private:
 	void SendWithHid();
@@ -26,8 +26,8 @@ private:
 	static const int BlockMaxRetries;
 	static const unsigned char PaddingChar;
 
+	static const int SerialBaud = 19200;
 	std::string port;
-	int baud;
 	const std::vector<unsigned char> &program;
 
 	int *threadStop; // get info, we should stop

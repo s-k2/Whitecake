@@ -33,15 +33,11 @@ void Settings::SetDefaults()
 #ifdef WHITECAKE_FOR_ARDUINO
 	programmer = "Arduino";
 	serialPort = "COMx";
-	serialBaud = 115200;
-
-
 #endif /* WHITECAKE_FOR_ARDUINO */
 
 #if defined (WHITECAKE_FOR_TINYBAS) || defined (WHITECAKE_FOR_TINYTICK)
 	programmer = "TinyBas";
 	serialPort = "HID";
-	serialBaud = 2400;
 #endif /* defined (WHITECAKE_FOR_TINYBAS) || defined (WHITECAKE_FOR_TINYTICK) */
 
 	for(size_t i = 0; i < 32; i++)
@@ -54,10 +50,6 @@ void Settings::SetDefaults()
 		ioPins.push_back("PIND." + String::IntToStr(i));
 	for(size_t i = 0; i < 6; i++)
 		adcChannels.push_back("ADC" + String::IntToStr(i));
-
-	NativeGetExecutablePath(compilerPath);
-	compilerPath.erase(compilerPath.find_last_of(NativePathSeparator));
-	compilerPath = compilerPath + NativePathSeparator + "bascomp.exe";
 }
 
 void Settings::ReadConfigIfExists()
@@ -109,13 +101,6 @@ void Settings::OnKey(string key, string value)
 		programmer = value;
 	} else if(key == "serialPort") {
 		serialPort = value;
-	} else if(key == "serialBaud") {
-		if(!String::ToInt(value, 10, &serialBaud)) {
-			NativeMessageBox(NULL, TR_FOUND_INVALID_KEY_ + key + TR__WITH_VALUE_ + value + 
-				TR__IN_CONFIGURATION_FILEI_WILL_IGNORE_IT, TR_CONFIGURATION_ERROR);
-		}
-	} else if(key == "compilerPath") {
-		compilerPath = value;
 	} else if(key == "integerVariables") {
 		integerVariables.clear();
 		String::Tokenize(value, integerVariables, ' ');
@@ -200,14 +185,6 @@ void Settings::WriteConfig()
 	
 	fprintf(out, "programmer = %s\n", programmer.c_str());
 	fprintf(out, "serialPort = %s\n", serialPort.c_str());
-	fprintf(out, "serialBaud = %d\n", serialBaud);
-	// write the compiler path only, if it is not in the current directory (to be an portable-app)
-	string compilerInProgramDir;
-	NativeGetExecutablePath(compilerInProgramDir);
-	compilerInProgramDir.erase(compilerInProgramDir.find_last_of(NativePathSeparator));
-	compilerInProgramDir = compilerInProgramDir + NativePathSeparator + "bascomp.exe";
-	if(compilerPath != compilerInProgramDir)
-		fprintf(out, "compilerPath = %s\n", compilerPath.c_str());
 	fprintf(out, "integerVariables = %s\n", String::Join(integerVariables, " ").c_str());
 	fprintf(out, "ioPorts = %s\n", String::Join(ioPorts, " ").c_str());
 	fprintf(out, "ioPins = %s\n", String::Join(ioPins, " ").c_str());
@@ -232,11 +209,7 @@ SettingsDialog::SettingsDialog(NativeWindow parent)
 SettingsDialog::~SettingsDialog(void)
 {
 	delete serialPortLabel;
-/*	delete serialBaudLabel;
-	delete compilerPathLabel; */
 	delete serialPortEdit;
-/*	delete serialBaudEdit;
-	delete compilerPathEdit;*/
 	delete okButton;
 	delete cancelButton;
 }
@@ -245,10 +218,6 @@ void SettingsDialog::PutControls()
 {
 	serialPortLabel = new NativeLabel(this, 20, 10, 95, 21, TR_SERIAL_PORT);
 	serialPortEdit = new NativeEdit(this, 120, 10, 350, 21, theSettings.GetSerialPort());
-/*	serialBaudLabel = new NativeLabel(this, 20, 40, 95, 21, TR_BAUDRATE);
-	serialBaudEdit = new NativeEdit(this, 120, 40, 350, 21, String::IntToStr(theSettings.GetSerialBaud()));
-	compilerPathLabel = new NativeLabel(this, 20, 70, 95, 21, TR_COMPILER_PATH);
-	compilerPathEdit = new NativeEdit(this, 120, 70, 350, 21, theSettings.GetCompilerPath());*/
 
 	okButton = new NativeButton(this, 260, 110, 100, 24, TR_OK, NativeButton::OKButton);
 	cancelButton = new NativeButton(this, 370, 110, 100, 24, TR_CANCEL, NativeButton::CancelButton);
@@ -256,15 +225,7 @@ void SettingsDialog::PutControls()
 
 bool SettingsDialog::OnOK()
 {
-	// we start with baud in case there is an error neither serialPort nor compilerPath would be changed
-/*	int serialBaud;
-	if(!String::ToInt(serialBaudEdit->GetText(), 10, &serialBaud)) {
-		serialBaudEdit->ShowBalloonTip(TR_INVALID_NUMBER, TR_YOU_HAVE_ENTERED_AN_INVALID_NUMBER, true);
-		return(false);
-	}*/
-
 	theSettings.SetSerialPort(serialPortEdit->GetText());
-//	theSettings.SetCompilerPath(compilerPathEdit->GetText());
 
 	return(true);
 }

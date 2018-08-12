@@ -12,8 +12,8 @@ const int BascomUploader::MaxTries = BascomUploader::Timeout / BascomUploader::S
 const int BascomUploader::BlockMaxRetries = 5;
 const unsigned char BascomUploader::PaddingChar = 0x1A; // is this ok???
 
-BascomUploader::BascomUploader(std::string port, int baud, const std::vector<unsigned char> &program, int *threadStop, int *threadState)
-	: port(port), baud(baud), program(program), threadStop(threadStop), threadState(threadState)
+BascomUploader::BascomUploader(std::string port, const std::vector<unsigned char> &program, int *threadStop, int *threadState)
+	: port(port), program(program), threadStop(threadStop), threadState(threadState)
 {
 	if(port == "HID")
 		SendWithHid();
@@ -29,7 +29,7 @@ void BascomUploader::SendWithHid()
 
 void BascomUploader::SendWithSerial()
 {
-	Serial serial(port, baud);
+	Serial serial(port, SerialBaud);
 	SendWorker(&serial);
 }
 

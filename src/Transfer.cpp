@@ -148,7 +148,7 @@ void Transfer::SendThread(void *transferVoid)
 
 	try {
 		if(theSettings.GetProgrammer() == "TinyBas")
-			BascomUploader uploader(theSettings.GetSerialPort(), theSettings.GetSerialBaud(), 
+			BascomUploader uploader(theSettings.GetSerialPort(), 
 				transfer->programToSend->GetBinary(), &transfer->threadStop, &transfer->threadState);
 		else
 			ArduinoUploader uploader(theSettings.GetSerialPort(), 
