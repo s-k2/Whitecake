@@ -45,11 +45,16 @@ void ReadSymbolsFile(string filename)
 		ParseLine(line);
 	}
 
+	cout << "static const std::map<std::string, Address> StdlibSymbols = {" << endl;
+	bool isFirst = true;
+	for(auto &symbol : allSymbols) {
+		if(!isFirst)
+			cout << "," << endl;
+		isFirst = false;
 
-	for(auto &symbol : allSymbols)
-		cout << "LabelLocation(\"" << symbol.first << "\", 0x" << std::hex << symbol.second << ");" << endl;
-
-	cout << "LabelCurrentLocation(\"program_start\");" << endl;
+		cout << "\t{ \"" << symbol.first << "\", 0x" << std::hex << symbol.second << " }";
+	}
+	cout << endl << "};";
 }
 
 template<size_t Count>
@@ -90,19 +95,13 @@ void ReadHexFile(string filename)
 {
 	ifstream input(filename);
 	string line;
-	cout << "uint8_t StdLib[] = {";
+
+	cout << "static const std::vector<uint8_t> Stdlib = {";
 	while(getline(input, line)) {
 		ParseHexLine(line);
 	}
 	cout << "\n};\n";
-	cout << "size_t StdLibSize = sizeof(StdLib);" << endl;
 	cout << endl;
-
-	cout << "for(size_t i = 0; i < StdLibSize; i++)" << endl
-		<< "\t" << "binary.Append<1>(StdLib[i]);" << endl;
-	cout << endl;
-
-
 }
 
 int main(int argc, char *argv[])
@@ -116,11 +115,6 @@ int main(int argc, char *argv[])
 	ReadSymbolsFile(string(argv[1]) + ".symbols");
 
 	cout << endl;
-	cout << "Address callUserMainAddress = GetLocationByLabel(\"call_user_main\");" << endl
-		<< "binary.Seek(callUserMainAddress);" << endl
-		<< "deferedInstructions.emplace_back(new DeferedCodeAddressToZ(binary, UnknownAddress(\"program_start\")));" << endl
-		<< "binary.SeekToEnd();" << endl;
-	cout << endl << endl;
 
 	return(0);
 }

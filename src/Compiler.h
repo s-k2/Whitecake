@@ -7,9 +7,9 @@
 #include <vector>
 
 #include "Helper/String.h"
+#include "Board.h"
 
 namespace Compiler {
-typedef uint16_t Address;
 
 class Program;
 
@@ -467,24 +467,6 @@ private:
 	ValueExpression right;
 };
 
-class Microcontroller
-{
-public:
-	Microcontroller();
-
-	Address GetAddressOfIo(const std::string &ioRegister) const
-	{
-		auto it = ioRegisterToAddress.find(ioRegister);
-		if(it == ioRegisterToAddress.end())
-			throw std::runtime_error("Could not find port " + ioRegister);
-
-		return(it->second);
-	}
-
-private:
-	std::map<std::string, Address> ioRegisterToAddress;
-};
-
 class Program
 {
 public:
@@ -534,18 +516,18 @@ public:
 		CodifyExpression(src); // result is in 24, 25
 
 		binary << SBRS(24, 0);
-		binary << CBI(microcontroller.GetAddressOfIo(dest.GetPortName()), dest.GetBit());
+		binary << CBI(board.GetAddressOfIo(dest.GetPortName()), dest.GetBit());
 		binary << SBRC(24, 0);
-		binary << SBI(microcontroller.GetAddressOfIo(dest.GetPortName()), dest.GetBit());
+		binary << SBI(board.GetAddressOfIo(dest.GetPortName()), dest.GetBit());
 	}
 
 	void Assign(const IoBit &dest, const ValueExpression &src)
 	{
 		if(src.GetType() == ValueExpression::IntLiteralType) {
 			if(src.GetLiteralIntValue() == 0)
-				binary << CBI(microcontroller.GetAddressOfIo(dest.GetPortName()), dest.GetBit());
+				binary << CBI(board.GetAddressOfIo(dest.GetPortName()), dest.GetBit());
 			else if(src.GetLiteralIntValue() == 1)
-				binary << SBI(microcontroller.GetAddressOfIo(dest.GetPortName()), dest.GetBit());
+				binary << SBI(board.GetAddressOfIo(dest.GetPortName()), dest.GetBit());
 			else
 				throw std::runtime_error("Invalid literal-value for IoBit (only 0 and 1 allowed)");
 
@@ -553,9 +535,9 @@ public:
 			CodifyExpression(src); // result is in 24, 25
 
 			binary << SBRS(24, 0);
-			binary << CBI(microcontroller.GetAddressOfIo(dest.GetPortName()), dest.GetBit());
+			binary << CBI(board.GetAddressOfIo(dest.GetPortName()), dest.GetBit());
 			binary << SBRC(24, 0);
-			binary << SBI(microcontroller.GetAddressOfIo(dest.GetPortName()), dest.GetBit());
+			binary << SBI(board.GetAddressOfIo(dest.GetPortName()), dest.GetBit());
 		}
 	}
 
@@ -659,7 +641,7 @@ public:
 	}
 
 private:
-	Microcontroller microcontroller;
+	Board board;
 	Binary binary;
 	size_t nextSymbolId;
 

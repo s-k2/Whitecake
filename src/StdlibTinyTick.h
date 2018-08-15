@@ -1,4 +1,4 @@
-uint8_t StdLib[] = {
+static const std::vector<uint8_t> Stdlib = {
 	0x12, 0xc0, 0x21, 0xc0, 0x20, 0xc0, 0x1f, 0xc0, 0x1e, 0xc0, 0x1d, 0xc0, 0x1c, 0xc0, 0x1b, 0xc0, 
 	0x1a, 0xc0, 0x19, 0xc0, 0x18, 0xc0, 0x17, 0xc0, 0x16, 0xc0, 0x15, 0xc0, 0x14, 0xc0, 0x13, 0xc0, 
 	0x12, 0xc0, 0x11, 0xc0, 0x10, 0xc0, 0x11, 0x24, 0x1f, 0xbe, 0xcf, 0xe5, 0xd1, 0xe0, 0xde, 0xbf, 
@@ -47,114 +47,104 @@ uint8_t StdLib[] = {
 	0x10, 0xf0, 0xa6, 0x1b, 0xb7, 0x0b, 0x88, 0x1f, 0x99, 0x1f, 0x5a, 0x95, 0xa9, 0xf7, 0x80, 0x95, 
 	0x90, 0x95, 0xbc, 0x01, 0xcd, 0x01, 0x08, 0x95, 0xf8, 0x94, 0xff, 0xcf
 };
-size_t StdLibSize = sizeof(StdLib);
 
-for(size_t i = 0; i < StdLibSize; i++)
-	binary.Append<1>(StdLib[i]);
-
-LabelLocation(".bss", 0x60);
-LabelLocation(".do_clear_bss_loop", 0x3a);
-LabelLocation(".do_clear_bss_start", 0x3c);
-LabelLocation(".text", 0x0);
-LabelLocation("__bad_interrupt", 0x46);
-LabelLocation("__bss_end", 0xa0);
-LabelLocation("__bss_start", 0x60);
-LabelLocation("__ctors_end", 0x26);
-LabelLocation("__ctors_start", 0x26);
-LabelLocation("__divmodhi4", 0x29a);
-LabelLocation("__divmodhi4_exit", 0x2be);
-LabelLocation("__divmodhi4_neg1", 0x2b0);
-LabelLocation("__divmodhi4_neg2", 0x2b8);
-LabelLocation("__do_clear_bss", 0x32);
-LabelLocation("__dtors_end", 0x26);
-LabelLocation("__dtors_start", 0x26);
-LabelLocation("__init", 0x26);
-LabelLocation("__mulhi3", 0x278);
-LabelLocation("__stop_program", 0x2ea);
-LabelLocation("__trampolines_end", 0x26);
-LabelLocation("__trampolines_start", 0x26);
-LabelLocation("__udivmodhi4", 0x2c0);
-LabelLocation("__udivmodhi4_ep", 0x2d6);
-LabelLocation("__udivmodhi4_loop", 0x2c8);
-LabelLocation("__vector_1", 0x46);
-LabelLocation("__vector_10", 0x46);
-LabelLocation("__vector_11", 0x46);
-LabelLocation("__vector_12", 0x46);
-LabelLocation("__vector_13", 0x46);
-LabelLocation("__vector_14", 0x46);
-LabelLocation("__vector_15", 0x46);
-LabelLocation("__vector_16", 0x46);
-LabelLocation("__vector_17", 0x46);
-LabelLocation("__vector_18", 0x46);
-LabelLocation("__vector_2", 0x46);
-LabelLocation("__vector_3", 0x46);
-LabelLocation("__vector_4", 0x46);
-LabelLocation("__vector_5", 0x46);
-LabelLocation("__vector_6", 0x46);
-LabelLocation("__vector_7", 0x46);
-LabelLocation("__vector_8", 0x46);
-LabelLocation("__vector_9", 0x46);
-LabelLocation("__vector_default", 0x0);
-LabelLocation("__vectors", 0x0);
-LabelLocation("_div", 0x29a);
-LabelLocation("_etext", 0x2ec);
-LabelLocation("_exit", 0x2e8);
-LabelLocation("adc_read", 0xe0);
-LabelLocation("call_user_main", 0x26c);
-LabelLocation("exit", 0x2e8);
-LabelLocation("main", 0x236);
-LabelLocation("print_char", 0x1b6);
-LabelLocation("print_newline", 0xdc);
-LabelLocation("print_number", 0x48);
-LabelLocation("print_str", 0xc2);
-LabelLocation("pwm_init", 0x16a);
-LabelLocation("pwm_set", 0x19a);
-LabelLocation("recvchar", 0x1be);
-LabelLocation("servo_init", 0xf6);
-LabelLocation("servo_set", 0x126);
-LabelLocation("softserial_init", 0x1ec);
-LabelLocation("softserial_recv", 0x232);
-LabelLocation("softserial_send", 0x1f6);
-LabelLocation("var0", 0x9e);
-LabelLocation("var1", 0x9c);
-LabelLocation("var10", 0x8a);
-LabelLocation("var11", 0x88);
-LabelLocation("var12", 0x86);
-LabelLocation("var13", 0x84);
-LabelLocation("var14", 0x82);
-LabelLocation("var15", 0x80);
-LabelLocation("var16", 0x7e);
-LabelLocation("var17", 0x7c);
-LabelLocation("var18", 0x7a);
-LabelLocation("var19", 0x78);
-LabelLocation("var2", 0x9a);
-LabelLocation("var20", 0x76);
-LabelLocation("var21", 0x74);
-LabelLocation("var22", 0x72);
-LabelLocation("var23", 0x70);
-LabelLocation("var24", 0x6e);
-LabelLocation("var25", 0x6c);
-LabelLocation("var26", 0x6a);
-LabelLocation("var27", 0x68);
-LabelLocation("var28", 0x66);
-LabelLocation("var29", 0x64);
-LabelLocation("var3", 0x98);
-LabelLocation("var30", 0x62);
-LabelLocation("var31", 0x60);
-LabelLocation("var4", 0x96);
-LabelLocation("var5", 0x94);
-LabelLocation("var6", 0x92);
-LabelLocation("var7", 0x90);
-LabelLocation("var8", 0x8e);
-LabelLocation("var9", 0x8c);
-LabelLocation("waitchar", 0x1b8);
-LabelLocation("waitms", 0x1c4);
-LabelLocation("waitus", 0x1da);
-LabelCurrentLocation("program_start");
-
-Address callUserMainAddress = GetLocationByLabel("call_user_main");
-binary.Seek(callUserMainAddress);
-deferedInstructions.emplace_back(new DeferedCodeAddressToZ(binary, UnknownAddress("program_start")));
-binary.SeekToEnd();
-
-
+static const std::map<std::string, Address> StdlibSymbols = {
+	{ ".bss", 0x60 },
+	{ ".do_clear_bss_loop", 0x3a },
+	{ ".do_clear_bss_start", 0x3c },
+	{ ".text", 0x0 },
+	{ "__bad_interrupt", 0x46 },
+	{ "__bss_end", 0xa0 },
+	{ "__bss_start", 0x60 },
+	{ "__ctors_end", 0x26 },
+	{ "__ctors_start", 0x26 },
+	{ "__divmodhi4", 0x29a },
+	{ "__divmodhi4_exit", 0x2be },
+	{ "__divmodhi4_neg1", 0x2b0 },
+	{ "__divmodhi4_neg2", 0x2b8 },
+	{ "__do_clear_bss", 0x32 },
+	{ "__dtors_end", 0x26 },
+	{ "__dtors_start", 0x26 },
+	{ "__init", 0x26 },
+	{ "__mulhi3", 0x278 },
+	{ "__stop_program", 0x2ea },
+	{ "__trampolines_end", 0x26 },
+	{ "__trampolines_start", 0x26 },
+	{ "__udivmodhi4", 0x2c0 },
+	{ "__udivmodhi4_ep", 0x2d6 },
+	{ "__udivmodhi4_loop", 0x2c8 },
+	{ "__vector_1", 0x46 },
+	{ "__vector_10", 0x46 },
+	{ "__vector_11", 0x46 },
+	{ "__vector_12", 0x46 },
+	{ "__vector_13", 0x46 },
+	{ "__vector_14", 0x46 },
+	{ "__vector_15", 0x46 },
+	{ "__vector_16", 0x46 },
+	{ "__vector_17", 0x46 },
+	{ "__vector_18", 0x46 },
+	{ "__vector_2", 0x46 },
+	{ "__vector_3", 0x46 },
+	{ "__vector_4", 0x46 },
+	{ "__vector_5", 0x46 },
+	{ "__vector_6", 0x46 },
+	{ "__vector_7", 0x46 },
+	{ "__vector_8", 0x46 },
+	{ "__vector_9", 0x46 },
+	{ "__vector_default", 0x0 },
+	{ "__vectors", 0x0 },
+	{ "_div", 0x29a },
+	{ "_etext", 0x2ec },
+	{ "_exit", 0x2e8 },
+	{ "adc_read", 0xe0 },
+	{ "call_user_main", 0x26c },
+	{ "exit", 0x2e8 },
+	{ "main", 0x236 },
+	{ "print_char", 0x1b6 },
+	{ "print_newline", 0xdc },
+	{ "print_number", 0x48 },
+	{ "print_str", 0xc2 },
+	{ "pwm_init", 0x16a },
+	{ "pwm_set", 0x19a },
+	{ "recvchar", 0x1be },
+	{ "servo_init", 0xf6 },
+	{ "servo_set", 0x126 },
+	{ "softserial_init", 0x1ec },
+	{ "softserial_recv", 0x232 },
+	{ "softserial_send", 0x1f6 },
+	{ "var0", 0x9e },
+	{ "var1", 0x9c },
+	{ "var10", 0x8a },
+	{ "var11", 0x88 },
+	{ "var12", 0x86 },
+	{ "var13", 0x84 },
+	{ "var14", 0x82 },
+	{ "var15", 0x80 },
+	{ "var16", 0x7e },
+	{ "var17", 0x7c },
+	{ "var18", 0x7a },
+	{ "var19", 0x78 },
+	{ "var2", 0x9a },
+	{ "var20", 0x76 },
+	{ "var21", 0x74 },
+	{ "var22", 0x72 },
+	{ "var23", 0x70 },
+	{ "var24", 0x6e },
+	{ "var25", 0x6c },
+	{ "var26", 0x6a },
+	{ "var27", 0x68 },
+	{ "var28", 0x66 },
+	{ "var29", 0x64 },
+	{ "var3", 0x98 },
+	{ "var30", 0x62 },
+	{ "var31", 0x60 },
+	{ "var4", 0x96 },
+	{ "var5", 0x94 },
+	{ "var6", 0x92 },
+	{ "var7", 0x90 },
+	{ "var8", 0x8e },
+	{ "var9", 0x8c },
+	{ "waitchar", 0x1b8 },
+	{ "waitms", 0x1c4 },
+	{ "waitus", 0x1da }
+};

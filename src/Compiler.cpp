@@ -4,61 +4,19 @@
 
 namespace Compiler {
 
-Microcontroller::Microcontroller()
-{
-/*	Arduino
- */
-#ifdef WHITECAKE_FOR_ARDUINO
-	ioRegisterToAddress.insert(std::make_pair("PINB", 0x03));
-	ioRegisterToAddress.insert(std::make_pair("DDRB", 0x03));
-	ioRegisterToAddress.insert(std::make_pair("PORTB", 0x05));
-	ioRegisterToAddress.insert(std::make_pair("PINC", 0x06));
-	ioRegisterToAddress.insert(std::make_pair("DDRC", 0x07));
-	ioRegisterToAddress.insert(std::make_pair("PORTC", 0x08));
-	ioRegisterToAddress.insert(std::make_pair("PIND", 0x09));
-	ioRegisterToAddress.insert(std::make_pair("DDRD", 0x0A));
-	ioRegisterToAddress.insert(std::make_pair("PORTD", 0x0B));
-#endif /* WHITECAKE_FOR_ARDUINO */
-
-/* TinyBas
- */
-#ifdef WHITECAKE_FOR_TINYBAS
-	ioRegisterToAddress.insert(std::make_pair("PINA", 0x19));
-	ioRegisterToAddress.insert(std::make_pair("DDRA", 0x1A));
-	ioRegisterToAddress.insert(std::make_pair("PORTA", 0x1B));
-	
-	ioRegisterToAddress.insert(std::make_pair("PINB", 0x16));
-	ioRegisterToAddress.insert(std::make_pair("DDRB", 0x17));
-	ioRegisterToAddress.insert(std::make_pair("PORTB", 0x18));
-#endif /* WHITECAKE_FOR_TINYBAS */
-
-/* TinyTick
- */
-#ifdef WHITECAKE_FOR_TINYTICK
-	ioRegisterToAddress.insert(std::make_pair("PINA", 0x19));
-	ioRegisterToAddress.insert(std::make_pair("DDRA", 0x1A));
-	ioRegisterToAddress.insert(std::make_pair("PORTA", 0x1B));
-	
-	ioRegisterToAddress.insert(std::make_pair("PINB", 0x16));
-	ioRegisterToAddress.insert(std::make_pair("DDRB", 0x17));
-	ioRegisterToAddress.insert(std::make_pair("PORTB", 0x18));
-#endif /* WHITECAKE_FOR_TINYTICK */
-}
-
-
 Program::Program()
 {
-#ifdef WHITECAKE_FOR_ARDUINO
-#include "StdlibArduino.h"
-#endif /* WHITECAKE_FOR_ARDUINO */
+	// copy all bytes of the stdlib-binary and all symbols of it
+	for(auto byte : board.GetStdlib())
+		binary.Append<1>(byte);
+	labels = board.GetStdlibSymbols();
 
-#ifdef WHITECAKE_FOR_TINYBAS
-#include "StdlibTinyBas.h"
-#endif /* WHITECAKE_FOR_TINYBAS */
-
-#ifdef WHITECAKE_FOR_TINYTICK
-#include "StdlibTinyTick.h"
-#endif /* WHITECAKE_FOR_TINYTICK */
+	// label the first byte of our own code and load this address at location call_user_main
+	LabelCurrentLocation("program_start");
+	Address callUserMainAddress = GetLocationByLabel("call_user_main");
+	binary.Seek(callUserMainAddress);
+	deferedInstructions.emplace_back(new DeferedCodeAddressToZ(binary, UnknownAddress("program_start")));
+	binary.SeekToEnd();	
 }
 
 void Program::CodifyExpression(const MathExpression &mathExpression)
@@ -112,7 +70,7 @@ void Program::CodifyExpression(const ValueExpression &valueExpression, uint16_t 
 	} else {
 		binary << EOR(lowReg, lowReg);
 		binary << EOR(highReg, highReg);
-		binary << SBIC(microcontroller.GetAddressOfIo(valueExpression.GetIoBit().GetPortName()), 
+		binary << SBIC(board.GetAddressOfIo(valueExpression.GetIoBit().GetPortName()), 
 				valueExpression.GetIoBit().GetBit());
 		binary << INC(lowReg);
 	}
