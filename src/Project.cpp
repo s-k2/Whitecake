@@ -10,7 +10,6 @@ using std::vector;
 #include "Compiler.h"
 #include "Helper/XMLReader.h"
 #include "Helper/XMLWriter.h"
-#include "Microcontroller.h"
 #include "Settings.h"
 
 Project::Project()

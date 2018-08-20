@@ -14,7 +14,6 @@
 class Sub;
 class ChartItem;
 class ChartView;
-class Microcontroller;
 class StartBlock;
 class XMLReader;
 class XMLWriter;

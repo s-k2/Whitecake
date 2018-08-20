@@ -6,7 +6,6 @@
 
 #include "ProgramBlock.h"
 #include "Platform.h"
-#include "Microcontroller.h"
 #include "Expressions.h"
 
 class Assignment : public ProgramBlock
