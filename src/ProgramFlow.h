@@ -72,24 +72,4 @@ private:
 	Sub *calledSub;
 };
 
-
-class EditCallSubDlg : public NativeDialog
-{
-public:
-	EditCallSubDlg(NativeWindow parent, CallSub *callSub);
-	~EditCallSubDlg();
-
-	virtual void PutControls();
-	virtual bool OnOK();
-
-	void OnListboxDblClick(NativeControl *sender);
-
-private:
-	CallSub *callSub;
-	NativeButton *cancelButton;
-	NativeButton *okButton;
-	NativeLabel *explanation;
-	NativeListbox *listbox;
-};
-
 #endif /* PROGRAM_FLOW_H */

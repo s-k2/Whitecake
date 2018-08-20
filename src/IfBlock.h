@@ -37,26 +37,4 @@ private:
 	ParsedCompare comp;
 };
 
-
-
-class EditIfDlg : public NativeDialog
-{
-public:
-	EditIfDlg(NativeWindow parent, IfBlock *ifBlock);
-	~EditIfDlg();
-
-	virtual void PutControls();
-	virtual bool OnOK();
-
-private:
-	IfBlock *ifBlock;
-
-	NativeLabel *explanation;
-	NativeSuggest *suggest;
-	NativeButton *okButton;
-	NativeButton *cancelButton;
-
-	void OnSuggest(NativeControl *sender);
-};
-
 #endif /* IFBLOCK_H */

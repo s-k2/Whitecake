@@ -154,6 +154,25 @@ void EndBlock::WriteCode(Compiler::Program &program)
 	program.ReturnFunction();
 }
 
+class EditCallSubDlg : public NativeDialog
+{
+public:
+	EditCallSubDlg(NativeWindow parent, CallSub *callSub);
+	~EditCallSubDlg();
+
+	virtual void PutControls();
+	virtual bool OnOK();
+
+	void OnListboxDblClick(NativeControl *sender);
+
+private:
+	CallSub *callSub;
+	NativeButton *cancelButton;
+	NativeButton *okButton;
+	NativeLabel *explanation;
+	NativeListbox *listbox;
+};
+
 const int CallSub::Width = 128;
 const int CallSub::Height = 72;
 

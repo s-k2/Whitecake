@@ -14,6 +14,26 @@ using std::vector;
 #include "Project.h"
 #include "Sub.h"
 
+class EditIfDlg : public NativeDialog
+{
+public:
+	EditIfDlg(NativeWindow parent, IfBlock *ifBlock);
+	~EditIfDlg();
+
+	virtual void PutControls();
+	virtual bool OnOK();
+
+private:
+	IfBlock *ifBlock;
+
+	NativeLabel *explanation;
+	NativeSuggest *suggest;
+	NativeButton *okButton;
+	NativeButton *cancelButton;
+
+	void OnSuggest(NativeControl *sender);
+};
+
 const int IfBlock::Width = 160;
 const int IfBlock::Height = 96;
 
@@ -116,7 +136,6 @@ void IfBlock::WriteCode(Compiler::Program &program)
 	program.LabelCurrentLocation(noLocationLabel);
 	noConnector->WriteCode(program);
 }
-
 
 EditIfDlg::EditIfDlg(NativeWindow parent, IfBlock *ifBlock)
 	: ifBlock(ifBlock)

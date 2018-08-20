@@ -36,24 +36,4 @@ private:
 	ParsedAssignment assignment;
 };
 
-class EditAssignmentDlg : public NativeDialog
-{
-public:
-	EditAssignmentDlg(NativeWindow parent, Assignment *assignment);
-	~EditAssignmentDlg();
-
-	virtual void PutControls();
-	virtual bool OnOK();
-
-private:
-	Assignment *assignment;
-
-	NativeLabel *explanation;
-	NativeSuggest *suggest;
-	NativeButton *okButton;
-	NativeButton *cancelButton;
-
-	void OnSuggest(NativeControl *sender);
-};
-
 #endif /* ASSIGNMENT_H */

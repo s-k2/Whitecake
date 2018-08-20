@@ -25,7 +25,6 @@ struct InstructionInfo
 	int ret;
 };
 
-
 class Instruction : public ProgramBlock
 {
 public:
@@ -65,31 +64,6 @@ private:
 	InstructionInfo *info;
 	std::string args[InstructionMaxArgs];
 	std::string result;
-};
-
-class Microcontroller;
-
-class EditInstructionDlg : public NativeDialog
-{
-public:
-	EditInstructionDlg(NativeWindow parent, Instruction *instruction, const Variables &variables);
-	~EditInstructionDlg();
-
-	virtual void PutControls();
-	virtual bool OnOK();
-
-	void OnListboxDblClick(NativeControl *sender);
-
-private:
-	Instruction *instruction;
-	struct InstructionInfo *info;
-	const Variables &variables;
-
-	NativeLabel *labels[InstructionMaxArgs + 1]; // +1 due to the return-field
-	NativeEdit *editFields[InstructionMaxArgs + 1]; // +1 due to the return-field
-	NativeListbox *listboxes[InstructionMaxArgs + 1]; // +1 due to the return-field
-	NativeButton *okButton;
-
 };
 
 class SelectInstructionDlg : public NativeDialog

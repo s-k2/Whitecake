@@ -15,6 +15,28 @@ using std::string;
 #include "Translate.h"
 #include "Config.h"
 
+class EditInstructionDlg : public NativeDialog
+{
+public:
+	EditInstructionDlg(NativeWindow parent, Instruction *instruction);
+	~EditInstructionDlg();
+
+	virtual void PutControls();
+	virtual bool OnOK();
+
+	void OnListboxDblClick(NativeControl *sender);
+
+private:
+	Instruction *instruction;
+	struct InstructionInfo *info;
+
+	NativeLabel *labels[InstructionMaxArgs + 1]; // +1 due to the return-field
+	NativeEdit *editFields[InstructionMaxArgs + 1]; // +1 due to the return-field
+	NativeListbox *listboxes[InstructionMaxArgs + 1]; // +1 due to the return-field
+	NativeButton *okButton;
+
+};
+
 InstructionInfo Instruction::InstructionInfos[] = 
 {
 	{ 
@@ -201,7 +223,7 @@ bool Instruction::IsInItem(int x, int y, int width, int height)
 
 bool Instruction::OnEdit(NativeWindow parent)
 {
-	EditInstructionDlg dlg(parent, this, GetProject()->GetVariables());
+	EditInstructionDlg dlg(parent, this);
 	return(dlg.WasOK());
 }
 
@@ -270,8 +292,8 @@ void Instruction::WriteCode(Compiler::Program &program)
 	ChartItem::WriteCode(program);
 }
 
-EditInstructionDlg::EditInstructionDlg(NativeWindow parent, Instruction *instruction, const Variables &variables)
-	: instruction(instruction), info(instruction->GetInstructionInfo()), variables(variables)
+EditInstructionDlg::EditInstructionDlg(NativeWindow parent, Instruction *instruction)
+	: instruction(instruction), info(instruction->GetInstructionInfo())
 {
 	int rowCount = info->argsCount + (info->ret != NoRet ? 1 : 0);
 	if(rowCount > 0)
@@ -287,7 +309,7 @@ void EditInstructionDlg::PutControls()
 		listboxes[i] = new NativeListbox(this, 10 + i * 200, 60, 180, 220);
 		listboxes[i]->onSelectionDoubleClick.AddHandler(this, (NativeEventHandler) &EditInstructionDlg::OnListboxDblClick);
 
-		std::vector<std::string> possibleOperands = variables.FormatOperands(info->args[i].type);
+		std::vector<std::string> possibleOperands = instruction->GetProject()->GetVariables().FormatOperands(info->args[i].type);
 		for(auto it = possibleOperands.begin(); it != possibleOperands.end(); ++it)
 			listboxes[i]->AddItem(*it);
 	}
@@ -298,7 +320,7 @@ void EditInstructionDlg::PutControls()
 		listboxes[i] = new NativeListbox(this, 10 + i * 200, 60, 180, 220);
 		listboxes[i]->onSelectionDoubleClick.AddHandler(this, (NativeEventHandler) &EditInstructionDlg::OnListboxDblClick);
 
-		std::vector<std::string> possibleOperands = variables.FormatOperands(info->ret);
+		std::vector<std::string> possibleOperands = instruction->GetProject()->GetVariables().FormatOperands(info->ret);
 		for(auto it = possibleOperands.begin(); it != possibleOperands.end(); ++it)
 			listboxes[i]->AddItem(*it);
 	}
@@ -311,7 +333,7 @@ bool EditInstructionDlg::OnOK()
 {
 	size_t i;
 	for(i = 0; i < info->argsCount; i++) {
-		ParsedParameter parameter(variables, editFields[i]->GetText());
+		ParsedParameter parameter(instruction->GetProject()->GetVariables(), editFields[i]->GetText());
 		if(!parameter.IsValid(info->args[i].type)) {
 			//editFields[i]->ShowBalloonTip(TR_WRONG_DATA, errorMessage, true);
 			return(false);
@@ -320,7 +342,7 @@ bool EditInstructionDlg::OnOK()
 		instruction->SetArg(i, parameter.GetText());
 	}
 	if(info->ret != NoRet) {
-		ParsedParameter parameter(variables, editFields[i]->GetText());
+		ParsedParameter parameter(instruction->GetProject()->GetVariables(), editFields[i]->GetText());
 		if(!parameter.IsValid(info->ret)) {
 			//editFields[i]->ShowBalloonTip(TR_WRONG_DATA, errorMessage, true);
 			return(false);

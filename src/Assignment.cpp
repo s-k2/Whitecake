@@ -13,6 +13,26 @@ using std::vector;
 #include "Sub.h"
 #include "Translate.h"
 
+class EditAssignmentDlg : public NativeDialog
+{
+public:
+	EditAssignmentDlg(NativeWindow parent, Assignment *assignment);
+	~EditAssignmentDlg();
+
+	virtual void PutControls();
+	virtual bool OnOK();
+
+private:
+	Assignment *assignment;
+
+	NativeLabel *explanation;
+	NativeSuggest *suggest;
+	NativeButton *okButton;
+	NativeButton *cancelButton;
+
+	void OnSuggest(NativeControl *sender);
+};
+
 const int Assignment::Width = 128;//144;
 const int Assignment::Height = 72;//80;
 
@@ -139,3 +159,4 @@ void EditAssignmentDlg::OnSuggest(NativeControl *sender)
 	
 	suggest->SetSuggestions(parsedAssignment.SuggestCompletions());
 }
+
