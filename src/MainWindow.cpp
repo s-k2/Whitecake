@@ -557,7 +557,7 @@ void MainWindow::Send()
 
 void MainWindow::EditAliases()
 {
-	EditAliasesDialog projectProperties(GetNativeWindow(), GetProject());
+	EditAliasesDialog projectProperties(GetNativeWindow(), project->GetVariablesPtr());
 	SetNeedRedraw(true);
 }
 

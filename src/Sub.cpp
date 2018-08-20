@@ -10,7 +10,6 @@ using std::string;
 #include "Compiler.h"
 #include "IfBlock.h"
 #include "Instruction.h"
-#include "Microcontroller.h"
 #include "ProgramBlock.h"
 #include "ProgramFlow.h"
 #include "Project.h"
@@ -225,7 +224,7 @@ void EditSubDlg::PutControls()
 
 bool EditSubDlg::OnOK()
 {
-	if(!sub->GetProject()->GetMicrocontroller()->GetVariables().IsValidIdentifier(edit->GetText())) {
+	if(!sub->GetProject()->GetVariables().IsValidIdentifier(edit->GetText())) {
 		NativeMessageBox(GetNativeWindow(), 
 			TR_INVALID_NAME_SUPPLIED_JUST_CHARACTERS_AND_STARTING_WITH_THE_SECOND_NUMBERS_ARE_ALLOWED, 
 			TR_INVALID_NAME);

@@ -15,13 +15,11 @@ using std::vector;
 
 Project::Project()
 {
-	microcontroller = new Microcontroller;
 }
 
 Project::Project(string path, bool *valid)
 {
 	this->path = path;
-	microcontroller = NULL; // initialize it in case of errors
 	if(valid)
 		*valid = ReadXML(path);
 }
@@ -32,7 +30,6 @@ Project::~Project()
 		delete charts.back();
 		charts.erase(charts.end() - 1);
 	}
-	delete microcontroller;
 }
 
 Sub *Project::AddChart()
@@ -62,7 +59,7 @@ bool Project::WriteXML(const string &path)
 
 	xml.OpenTag("Project");
 
-	microcontroller->WriteXML(&xml);
+	variables.Write(&xml);
 	
 	xml.OpenTag("Subs");
 	for(vector<Sub *>::iterator it = charts.begin(); it != charts.end(); it++)
@@ -85,8 +82,7 @@ bool Project::ReadXML(const string &path)
 
 		xml.OpenTag("Project");
 
-		microcontroller = new Microcontroller(&xml);
-		// TODO: check for correct microcontroller
+		variables.Read(&xml);
 
 		xml.OpenTag("Subs");
 		while(xml.GetCurrentNode()->GetChildCount() > 0) {

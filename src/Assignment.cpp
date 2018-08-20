@@ -9,7 +9,6 @@ using std::vector;
 #include "CodeWriteException.h"
 #include "Helper/XMLReader.h"
 #include "Helper/XMLWriter.h"
-#include "Microcontroller.h"
 #include "Project.h"
 #include "Sub.h"
 #include "Translate.h"
@@ -57,7 +56,7 @@ bool Assignment::IsInItem(int x, int y, int width, int height)
 
 bool Assignment::OnEdit(NativeWindow parent)
 {
-	EditAssignmentDlg dlg(parent, this, GetProject()->GetMicrocontroller());
+	EditAssignmentDlg dlg(parent, this);
 	return(dlg.WasOK());
 }
 	
@@ -77,14 +76,14 @@ void Assignment::ReadXML(XMLReader *xml,
 	
 	string assignmentStr;
 	xml->TextTag("Assignment", &assignmentStr);
-	assignment = ParsedAssignment(GetProject()->GetMicrocontroller()->GetVariables(), assignmentStr);
+	assignment = ParsedAssignment(GetProject()->GetVariables(), assignmentStr);
 	
 	xml->CloseTag("Assignment");
 }
 
 void Assignment::WriteCode(Compiler::Program &program)
 {
-	if(!assignment.IsValid(GetProject()->GetMicrocontroller()))
+	if(!assignment.IsValid())
 		throw CodeWriteException(this, TR_NO_FORMULA_IN_ASSIGNMENT);
 
 	assignment.WriteCode(program);
@@ -94,12 +93,9 @@ void Assignment::WriteCode(Compiler::Program &program)
 }
 
 
-EditAssignmentDlg::EditAssignmentDlg(NativeWindow parent, 
-	Assignment *assignment, Microcontroller *microcontroller)
+EditAssignmentDlg::EditAssignmentDlg(NativeWindow parent, Assignment *assignment)
+	: assignment(assignment)
 {
-	this->assignment = assignment;
-	this->microcontroller = microcontroller;
-
 	Create(parent, 470, 364, TR_ASSIGNMENT);
 }
 
@@ -126,9 +122,9 @@ bool EditAssignmentDlg::OnOK()
 {
 	string text = suggest->GetText();
 
-	ParsedAssignment parsedAssignment(microcontroller->GetVariables(), text);
+	ParsedAssignment parsedAssignment(assignment->GetProject()->GetVariables(), text);
 
-	if(parsedAssignment.IsValid(microcontroller)) {
+	if(parsedAssignment.IsValid()) {
 		assignment->SetAssignment(parsedAssignment);
 
 		return(true); // valid value entered
@@ -139,7 +135,7 @@ bool EditAssignmentDlg::OnOK()
 
 void EditAssignmentDlg::OnSuggest(NativeControl *sender)
 {
-	ParsedAssignment parsedAssignment(microcontroller->GetVariables(), suggest->GetText());
+	ParsedAssignment parsedAssignment(assignment->GetProject()->GetVariables(), suggest->GetText());
 	
 	suggest->SetSuggestions(parsedAssignment.SuggestCompletions());
 }

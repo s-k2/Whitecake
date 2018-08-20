@@ -10,7 +10,6 @@ using std::vector;
 #include "Helper/Geometry.h"
 #include "Helper/XMLReader.h"
 #include "Helper/XMLWriter.h"
-#include "Microcontroller.h"
 #include "Translate.h"
 #include "Project.h"
 #include "Sub.h"
@@ -68,7 +67,7 @@ bool IfBlock::IsInItem(int x, int y, int width, int height)
 
 bool IfBlock::OnEdit(NativeWindow parent)
 {
-	EditIfDlg dlg(parent, this, GetSub()->GetProject()->GetMicrocontroller());
+	EditIfDlg dlg(parent, this);
 	return(dlg.WasOK());
 }
 
@@ -88,7 +87,7 @@ void IfBlock::ReadXML(XMLReader *xml,
 
 	std::string compareStr;
 	xml->TextTag("Compare", &compareStr);
-	comp = ParsedCompare(GetProject()->GetMicrocontroller()->GetVariables(), compareStr);
+	comp = ParsedCompare(GetProject()->GetVariables(), compareStr);
 	xml->CloseTag("IfBlock");
 }
 
@@ -101,7 +100,7 @@ void IfBlock::WriteCode(Compiler::Program &program)
 		throw CodeWriteException(yesConnector, TR_YES_SIDE_NOT_CONNECTED_WITH_A_BLOCK);
 	if(noConnector->GetEndItem() == NULL)
 		throw CodeWriteException(noConnector, TR_NO_SIDE_NOT_CONNECTED_WITH_A_BLOCK);
-	if(!comp.IsValid(GetProject()->GetMicrocontroller()))
+	if(!comp.IsValid())
 		throw CodeWriteException(this, TR_NO_CONDITION_IN_IFBLOCK);
 
 	std::string noLocationLabel = program.GenerateSymbolName();
@@ -119,12 +118,9 @@ void IfBlock::WriteCode(Compiler::Program &program)
 }
 
 
-EditIfDlg::EditIfDlg(NativeWindow parent, 
-	IfBlock *ifBlock, Microcontroller *microcontroller)
+EditIfDlg::EditIfDlg(NativeWindow parent, IfBlock *ifBlock)
+	: ifBlock(ifBlock)
 {
-	this->ifBlock = ifBlock;
-	this->microcontroller = microcontroller;
-
 	Create(parent, 470, 364, TR_IF_BLOCK);
 }
 
@@ -149,9 +145,9 @@ void EditIfDlg::PutControls()
 
 bool EditIfDlg::OnOK()
 {
-	ParsedCompare compare(microcontroller->GetVariables(), suggest->GetText());
+	ParsedCompare compare(ifBlock->GetProject()->GetVariables(), suggest->GetText());
 
-	if(compare.IsValid(microcontroller)) {
+	if(compare.IsValid()) {
 		ifBlock->SetCompare(compare);
 
 		return(true); // valid value entered
@@ -162,7 +158,7 @@ bool EditIfDlg::OnOK()
 
 void EditIfDlg::OnSuggest(NativeControl *sender)
 {
-	ParsedCompare compare(microcontroller->GetVariables(), suggest->GetText());
+	ParsedCompare compare(ifBlock->GetProject()->GetVariables(), suggest->GetText());
 
 	suggest->SetSuggestions(compare.SuggestCompletion());
 }

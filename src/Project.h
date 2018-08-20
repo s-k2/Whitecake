@@ -5,10 +5,11 @@
 #include <string>
 
 class Sub;
-class Microcontroller;
 namespace Compiler {
 	class Program;
 }
+
+#include "Variables.h"
 
 class Project
 {
@@ -30,8 +31,10 @@ public:
 	bool ReadXML(const std::string &path);
 	void WriteCode(Compiler::Program &program);
 
-	inline Microcontroller *GetMicrocontroller()
-		{ return(microcontroller); };
+	inline const Variables &GetVariables() const
+		{ return(variables); };
+	inline Variables *GetVariablesPtr() // TODO: This should look different!
+		{ return(&variables); }
 
 	inline const std::string &GetPath()
 		{ return(path); };
@@ -40,9 +43,8 @@ public:
 private:
 	std::vector<Sub *> charts;
 	
-	// this objects holds all information about the microcontroller used in 
-	// this project, e.g. it's io pins, available variables, ...
-	Microcontroller *microcontroller;
+	// this objects holds all information about the available variables
+	Variables variables;
 
 	std::string path;
 };

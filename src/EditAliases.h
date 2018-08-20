@@ -6,7 +6,7 @@ class Variables;
 class EditAliasesDialog : public NativeDialog
 {
 public:
-	EditAliasesDialog(NativeWindow parentm, Project *project);
+	EditAliasesDialog(NativeWindow parent, Variables *variables);
 	~EditAliasesDialog();
 
 	virtual void PutControls();
@@ -21,5 +21,5 @@ private:
 	NativeButton *newButton;
 	NativeButton *okButton;
 
-	Variables &variables;
+	Variables *variables;
 };

@@ -11,7 +11,7 @@ using namespace std;
 class AliasDialog : public NativeDialog
 {
 public:
-	AliasDialog(NativeWindow parent, const string &oldName, Variables &variables);
+	AliasDialog(NativeWindow parent, const string &oldName, Variables *variables);
 	~AliasDialog();
 
 	virtual void PutControls();
@@ -28,12 +28,12 @@ private:
 	NativeButton *okButton;
 	NativeButton *cancelButton;
 
-	Variables &variables;
+	Variables *variables;
 	string oldName;
 	string newName;
 };
 
-AliasDialog::AliasDialog(NativeWindow parent, const string &oldName, Variables &variables)
+AliasDialog::AliasDialog(NativeWindow parent, const string &oldName, Variables *variables)
 	: variables(variables), oldName(oldName)
 {
 	Create(parent, 340, 220, TR_EDIT_ALIAS);
@@ -51,7 +51,7 @@ void AliasDialog::PutControls()
 {
 	nameEdit = new NativeEdit(this, 20, 20, 310, 21, oldName);
 	targetSuggest = new NativeSuggest(this, 20, 50, 310, 21);
-	targetSuggest->SetText(variables.GetAliasDestination(oldName));
+	targetSuggest->SetText(variables->GetAliasDestination(oldName));
 	targetSuggest->onShowSuggestions.AddHandler(this, (NativeEventHandler) &AliasDialog::OnSuggest);
 	okButton = new NativeButton(this, 110, 180, 100, 24, TR_OK, NativeButton::OKButton);
 	cancelButton = new NativeButton(this, 230, 180, 100, 24, TR_CANCEL, NativeButton::CancelButton);
@@ -59,20 +59,20 @@ void AliasDialog::PutControls()
 
 void AliasDialog::OnSuggest(NativeControl *sender)
 {
-	targetSuggest->SetSuggestions(variables.SuggestAliasTargets(targetSuggest->GetText(), oldName));
+	targetSuggest->SetSuggestions(variables->SuggestAliasTargets(targetSuggest->GetText(), oldName));
 }
 
 bool AliasDialog::OnOK()
 {
 	newName = nameEdit->GetText();
 	if(oldName.empty())
-		return(variables.AddAlias(newName, targetSuggest->GetText()));
+		return(variables->AddAlias(newName, targetSuggest->GetText()));
 	else
-		return(variables.UpdateAlias(oldName, newName, targetSuggest->GetText()));
+		return(variables->UpdateAlias(oldName, newName, targetSuggest->GetText()));
 }
 
-EditAliasesDialog::EditAliasesDialog(NativeWindow parent, Project *project)
-	: variables(project->GetMicrocontroller()->GetVariables())
+EditAliasesDialog::EditAliasesDialog(NativeWindow parent, Variables *variables)
+	: variables(variables)
 {
 	Create(parent, 285, 485, TR_EDIT_ALIASES);
 }
@@ -94,9 +94,9 @@ void EditAliasesDialog::PutControls()
 	aliasList->onSelectionChange.AddHandler(this, 
 		(NativeEventHandler) &EditAliasesDialog::OnChangeCurrent);
 	
-	auto allAliases = variables.GetAllAliases();
+	auto allAliases = variables->GetAllAliases();
 	for(auto it = allAliases.begin(); it != allAliases.end(); ++it)
-		aliasList->AddItem(*it + " > " + variables.GetAliasDestination(*it), (void *) new string(*it));
+		aliasList->AddItem(*it + " > " + variables->GetAliasDestination(*it), (void *) new string(*it));
 	
 	newButton = new NativeButton(this, 20, 445, 100, 24, TR_NEW);
 	newButton->onButtonClick.AddHandler(this, (NativeEventHandler) &EditAliasesDialog::OnNew);
@@ -118,7 +118,7 @@ void EditAliasesDialog::OnChangeCurrent(NativeControl *sender)
 	AliasDialog aliasDlg(GetNativeWindow(), *aliasName, variables);
 	if(aliasDlg.WasOK()) {
 		aliasList->SetItem(index, 
-			aliasDlg.GetNewName() + " > " + variables.GetAliasDestination(aliasDlg.GetNewName()), 
+			aliasDlg.GetNewName() + " > " + variables->GetAliasDestination(aliasDlg.GetNewName()), 
 			(void *) new string(aliasDlg.GetNewName()));
 		delete aliasName;
 	}
@@ -129,6 +129,6 @@ void EditAliasesDialog::OnNew(NativeControl *sender)
 	AliasDialog aliasDlg(GetNativeWindow(), "", variables);
 	if(aliasDlg.WasOK()) {
 		string newName = aliasDlg.GetNewName();
-		aliasList->AddItem(newName + " > " + variables.GetAliasDestination(newName), (void *) new string(newName));
+		aliasList->AddItem(newName + " > " + variables->GetAliasDestination(newName), (void *) new string(newName));
 	}
 }

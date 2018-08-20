@@ -4,7 +4,6 @@
 #include <string>
 #include <vector>
 
-#include "Microcontroller.h"
 #include "Variables.h"
 
 #include "Compiler.h"
@@ -183,7 +182,7 @@ public:
 	inline bool IsRightSideValid() const
 		{ return(rightSide.IsValid()); };
 
-	inline bool IsValid(const Microcontroller *microcontroller) const
+	inline bool IsValid() const
 		{ return(IsLeftSideValid() && IsRightSideValid() &&
 			variables->GetCastableTypes(leftSide->GetType()) & rightSide.GetType()); };
 
@@ -233,7 +232,7 @@ public:
 	inline bool HasCompareOperator() const
 		{ return(compareOperator.IsValid()); };
 
-	inline bool IsValid(const Microcontroller *microcontroller) const
+	inline bool IsValid() const
 		{ return(leftSide.IsValid() && rightSide.IsValid()); };
 
 	inline const RightSideToken &GetLeftSide() const

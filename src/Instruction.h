@@ -72,7 +72,7 @@ class Microcontroller;
 class EditInstructionDlg : public NativeDialog
 {
 public:
-	EditInstructionDlg(NativeWindow parent, Instruction *instruction, Microcontroller *microcontroller);
+	EditInstructionDlg(NativeWindow parent, Instruction *instruction, const Variables &variables);
 	~EditInstructionDlg();
 
 	virtual void PutControls();
@@ -83,7 +83,7 @@ public:
 private:
 	Instruction *instruction;
 	struct InstructionInfo *info;
-	Microcontroller *microcontroller;
+	const Variables &variables;
 
 	NativeLabel *labels[InstructionMaxArgs + 1]; // +1 due to the return-field
 	NativeEdit *editFields[InstructionMaxArgs + 1]; // +1 due to the return-field

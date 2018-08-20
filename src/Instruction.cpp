@@ -10,7 +10,6 @@ using std::string;
 #include "Helper/String.h"
 #include "Helper/XMLReader.h"
 #include "Helper/XMLWriter.h"
-#include "Microcontroller.h"
 #include "Project.h"
 #include "Sub.h"
 #include "Translate.h"
@@ -202,7 +201,7 @@ bool Instruction::IsInItem(int x, int y, int width, int height)
 
 bool Instruction::OnEdit(NativeWindow parent)
 {
-	EditInstructionDlg dlg(parent, this, GetProject()->GetMicrocontroller());
+	EditInstructionDlg dlg(parent, this, GetProject()->GetVariables());
 	return(dlg.WasOK());
 }
 
@@ -251,7 +250,7 @@ void Instruction::WriteCode(Compiler::Program &program)
 {
 	std::vector<Compiler::ValueExpression> args;
 	for(size_t i = 0; i < info->argsCount; i++) {
-		ParsedParameter arg(GetProject()->GetMicrocontroller()->GetVariables(), this->args[i]);
+		ParsedParameter arg(GetProject()->GetVariables(), this->args[i]);
 		if(!arg.IsValid(info->args[i].type))
 			throw CodeWriteException(this, TR_PARAMTER_MISSING_IN_INSTRUCTION);
 		args.emplace_back(arg.ToValueExpression());
@@ -262,7 +261,7 @@ void Instruction::WriteCode(Compiler::Program &program)
 	else {
 		if(GetResult().empty())
 			throw CodeWriteException(this, TR_PARAMTER_MISSING_IN_INSTRUCTION);
-		string resultVariableNoAlias = GetProject()->GetMicrocontroller()->GetVariables().GetAliasDestination(GetResult());
+		string resultVariableNoAlias = GetProject()->GetVariables().GetAliasDestination(GetResult());
 		if(resultVariableNoAlias.empty())
 			resultVariableNoAlias = GetResult();
 		program.Call(Compiler::UnknownAddress(info->idString), args, Compiler::UnknownAddress(resultVariableNoAlias));
@@ -271,14 +270,10 @@ void Instruction::WriteCode(Compiler::Program &program)
 	ChartItem::WriteCode(program);
 }
 
-EditInstructionDlg::EditInstructionDlg(NativeWindow parent, Instruction *instruction, Microcontroller *microcontroller)
+EditInstructionDlg::EditInstructionDlg(NativeWindow parent, Instruction *instruction, const Variables &variables)
+	: instruction(instruction), info(instruction->GetInstructionInfo()), variables(variables)
 {
-	this->instruction = instruction;
-	info = instruction->GetInstructionInfo();
-	this->microcontroller = microcontroller;
-
 	int rowCount = info->argsCount + (info->ret != NoRet ? 1 : 0);
-
 	if(rowCount > 0)
 		Create(parent, rowCount * 200, 330, TR_INSTRUCTION);
 }
@@ -292,7 +287,7 @@ void EditInstructionDlg::PutControls()
 		listboxes[i] = new NativeListbox(this, 10 + i * 200, 60, 180, 220);
 		listboxes[i]->onSelectionDoubleClick.AddHandler(this, (NativeEventHandler) &EditInstructionDlg::OnListboxDblClick);
 
-		std::vector<std::string> possibleOperands = microcontroller->GetVariables().FormatOperands(info->args[i].type);
+		std::vector<std::string> possibleOperands = variables.FormatOperands(info->args[i].type);
 		for(auto it = possibleOperands.begin(); it != possibleOperands.end(); ++it)
 			listboxes[i]->AddItem(*it);
 	}
@@ -303,7 +298,7 @@ void EditInstructionDlg::PutControls()
 		listboxes[i] = new NativeListbox(this, 10 + i * 200, 60, 180, 220);
 		listboxes[i]->onSelectionDoubleClick.AddHandler(this, (NativeEventHandler) &EditInstructionDlg::OnListboxDblClick);
 
-		std::vector<std::string> possibleOperands = microcontroller->GetVariables().FormatOperands(info->ret);
+		std::vector<std::string> possibleOperands = variables.FormatOperands(info->ret);
 		for(auto it = possibleOperands.begin(); it != possibleOperands.end(); ++it)
 			listboxes[i]->AddItem(*it);
 	}
@@ -316,7 +311,7 @@ bool EditInstructionDlg::OnOK()
 {
 	size_t i;
 	for(i = 0; i < info->argsCount; i++) {
-		ParsedParameter parameter(microcontroller->GetVariables(), editFields[i]->GetText());
+		ParsedParameter parameter(variables, editFields[i]->GetText());
 		if(!parameter.IsValid(info->args[i].type)) {
 			//editFields[i]->ShowBalloonTip(TR_WRONG_DATA, errorMessage, true);
 			return(false);
@@ -325,7 +320,7 @@ bool EditInstructionDlg::OnOK()
 		instruction->SetArg(i, parameter.GetText());
 	}
 	if(info->ret != NoRet) {
-		ParsedParameter parameter(microcontroller->GetVariables(), editFields[i]->GetText());
+		ParsedParameter parameter(variables, editFields[i]->GetText());
 		if(!parameter.IsValid(info->ret)) {
 			//editFields[i]->ShowBalloonTip(TR_WRONG_DATA, errorMessage, true);
 			return(false);

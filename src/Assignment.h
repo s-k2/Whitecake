@@ -39,8 +39,7 @@ private:
 class EditAssignmentDlg : public NativeDialog
 {
 public:
-	EditAssignmentDlg(NativeWindow parent, Assignment *assignment, 
-	Microcontroller *microcontroller);
+	EditAssignmentDlg(NativeWindow parent, Assignment *assignment);
 	~EditAssignmentDlg();
 
 	virtual void PutControls();
@@ -48,7 +47,6 @@ public:
 
 private:
 	Assignment *assignment;
-	Microcontroller *microcontroller;
 
 	NativeLabel *explanation;
 	NativeSuggest *suggest;

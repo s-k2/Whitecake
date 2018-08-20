@@ -155,7 +155,7 @@ public:
 	enum DirectionNames { Left = 1, Right = 2, NoHorizontal = 4, Up = 8, Down = 16, NoVertical = 32,
 		Horizontal = Left | Right | NoHorizontal, Vertical = Up | Down | NoVertical };
 
-	Direction(int startX, int startY, int endX, int endY)
+	Direction(const int startX, const int startY, const int endX, const int endY)
 		: direction(0)
 	{
 		if(startX == endX)

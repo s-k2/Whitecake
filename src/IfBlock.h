@@ -42,7 +42,7 @@ private:
 class EditIfDlg : public NativeDialog
 {
 public:
-	EditIfDlg(NativeWindow parent, IfBlock *ifBlock, Microcontroller *microcontroller);
+	EditIfDlg(NativeWindow parent, IfBlock *ifBlock);
 	~EditIfDlg();
 
 	virtual void PutControls();
@@ -50,7 +50,6 @@ public:
 
 private:
 	IfBlock *ifBlock;
-	Microcontroller *microcontroller;
 
 	NativeLabel *explanation;
 	NativeSuggest *suggest;
