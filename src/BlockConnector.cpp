@@ -144,7 +144,7 @@ void BlockConnector::AdjustEndToPlugable(int absX, int absY)
 }
 
 void BlockConnector::FindPlugableItem(Canvas *canvas, CanvasItem *item, 
-								void *userData, int x, int y)
+		void *userData, int x, int y)
 {
 	register ChartItem *chartItem = (ChartItem *) item->itemData;
 	register ChartItem **foundItem = (ChartItem **) userData;
@@ -301,17 +301,16 @@ private:
 			}
 		}
 	}
-	int prevStartX, prevStartY;
-	int curX, curY;
-	int lastX, lastY;
-
-	int totalWidth, totalHeight;
 	Direction overallDir;
-	int horizontalInDirectionCount;
-	int verticalInDirectionCount;
+	int totalWidth, totalHeight;
 	vector<ConnectorPart>::iterator it;
 	vector<ConnectorPart>::iterator itBegin;
 	vector<ConnectorPart>::iterator itEnd;
+	int curX, curY;
+	int lastX, lastY;
+
+	int horizontalInDirectionCount;
+	int verticalInDirectionCount;
 };
 
 void BlockConnector::UpdateCanvasItem()
