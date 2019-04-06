@@ -36,22 +36,22 @@ private:
 	int *threadStop; // get info, we should stop
 	int *threadState; // show our progress
 
-	static const int BaudRate = 115200; // Every Arduino Uno uses this baud
-	static const unsigned char CommandGetSync = 0x30;
-	static const unsigned char CommandGetParameter = 0x41;
-	static const unsigned char CommandEnterProgMode = 0x50;
-	static const unsigned char CommandReadSign = 0x75;
-	static const unsigned char CommandLoadAddress = 0x55;
-	static const unsigned char CommandProgramPage = 0x64;
-	static const unsigned char CommandLeaveProgMode = 0x51;
+	static const int BaudRate; // Every Arduino Uno uses this baud
+	static const unsigned char CommandGetSync;
+	static const unsigned char CommandGetParameter;
+	static const unsigned char CommandEnterProgMode;
+	static const unsigned char CommandReadSign;
+	static const unsigned char CommandLoadAddress;
+	static const unsigned char CommandProgramPage;
+	static const unsigned char CommandLeaveProgMode;
 
-	static const unsigned char ResponseInSync = 0x14;
-	static const unsigned char ResponseOk = 0x10;
+	static const unsigned char ResponseInSync;
+	static const unsigned char ResponseOk;
 
-	static const unsigned char ParameterSoftwareMajor = 0x81;
-	static const unsigned char ParameterSoftwareMinor = 0x82;
+	static const unsigned char ParameterSoftwareMajor;
+	static const unsigned char ParameterSoftwareMinor;
 
-	static const unsigned char SyncCrcEop = 0x20;
+	static const unsigned char SyncCrcEop;
 };
 
 #endif /* ARDUINO_UPLOADER_H */

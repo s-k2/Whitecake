@@ -6,8 +6,8 @@
 #ifdef _WIN32
 #include "Win32/Hid.h"
 
+#if !defined(WIN_PTHREADS_H)
 typedef HANDLE pthread_t;
-#define pthread_attr_default 0
 #define pthread_create(thread, threadAttribute, threadFunction, arg) \
 	(*thread = CreateThread(NULL, (threadAttribute), (LPTHREAD_START_ROUTINE) threadFunction, arg, 0, (LPDWORD) NULL))
 inline void pthread_join(pthread_t thread, void **retValue)
@@ -28,6 +28,7 @@ typedef HANDLE pthread_mutex_t;
 #define pthread_mutex_destroy(mutex) \
 	CloseHandle(*(mutex));
 
+#endif //!defined(WIN_PTHREADS_H)
 
 #else
 #include "Gtk/Hid.h"
@@ -111,7 +112,7 @@ int HidPortOpen(struct HidPort **portPtr, int vendorId, int productId, int seria
 	}
 
 	// now create the worker thread that constantly receives and sends data
-	pthread_create(&port->workerThread, pthread_attr_default, &HidPortWorkerThreadMain, port);
+	pthread_create(&port->workerThread, NULL, &HidPortWorkerThreadMain, port);
 
 	return(0);
 }

@@ -4,6 +4,20 @@
 
 using std::vector;
 
+const int ArduinoUploader::BaudRate = 115200; // Every Arduino Uno uses this baud
+const unsigned char ArduinoUploader::CommandGetSync = 0x30;
+const unsigned char ArduinoUploader::CommandGetParameter = 0x41;
+const unsigned char ArduinoUploader::CommandEnterProgMode = 0x50;
+const unsigned char ArduinoUploader::CommandReadSign = 0x75;
+const unsigned char ArduinoUploader::CommandLoadAddress = 0x55;
+const unsigned char ArduinoUploader::CommandProgramPage = 0x64;
+const unsigned char ArduinoUploader::CommandLeaveProgMode = 0x51;
+const unsigned char ArduinoUploader::ResponseInSync = 0x14;
+const unsigned char ArduinoUploader::ResponseOk = 0x10;
+const unsigned char ArduinoUploader::ParameterSoftwareMajor = 0x81;
+const unsigned char ArduinoUploader::ParameterSoftwareMinor = 0x82;
+const unsigned char ArduinoUploader::SyncCrcEop = 0x20;
+
 ArduinoUploader::ArduinoUploader(std::string portPath, const std::vector<unsigned char> &program, int *threadStop, int *threadState)
 	: port(portPath, BaudRate), program(program), threadStop(threadStop), threadState(threadState)
 {
