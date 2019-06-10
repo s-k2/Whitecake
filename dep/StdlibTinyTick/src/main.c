@@ -109,6 +109,7 @@ void print_str(int16_t ptr)
 
 void print_newline()
 {
+	serial_send('\r');
 	serial_send('\n');
 }
 
