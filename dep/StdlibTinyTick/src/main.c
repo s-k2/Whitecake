@@ -57,11 +57,10 @@ int main()
 	// leave ADCSRB to 0 -> no bipolar input, no gain, (no internal reference selection), no auto-trigger source (= free-running mode)
 	// DIDR0 and DIDR1 what about disabling digital input for adc-pins???
 	
-	
-	DDRA = (1 << 3) | (1 << 7);
-	DDRB = (1 << 0) | (1 << 1) | (1 << 2) | (1 << 5);
+	DDRA = (1 << 0) | (1 << 3) | (1 << 7);
+	DDRB = (1 << 0) | (1 << 1) | (1 << 2) | (1 << 3) | (1 << 5);
 	PORTA |= (1 << 6) | (1 << 4); // enable pull-ups
-	PORTB |= (1 << 6) | (1 << 4) | (1 << 3);
+	PORTB |= (1 << 6) | (1 << 4);
 
 	serial_init();
 	
