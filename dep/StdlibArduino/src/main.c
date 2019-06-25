@@ -2,38 +2,13 @@
 #include <util/delay.h>
 #include <avr/pgmspace.h>
 
-int var0 = 0;
-int var1 = 0;
-int var2 = 0;
-int var3 = 0;
-int var4 = 0;
-int var5 = 0;
-int var6 = 0;
-int var7 = 0;
-int var8 = 0;
-int var9 = 0;
-int var10 = 0;
-int var11 = 0;
-int var12 = 0;
-int var13 = 0;
-int var14 = 0;
-int var15 = 0;
-int var16 = 0;
-int var17 = 0;
-int var18 = 0;
-int var19 = 0;
-int var20 = 0;
-int var21 = 0;
-int var22 = 0;
-int var23 = 0;
-int var24 = 0;
-int var25 = 0;
-int var26 = 0;
-int var27 = 0;
-int var28 = 0;
-int var29 = 0;
-int var30 = 0;
-int var31 = 0;
+int var0 = 0, var1 = 0, var2 = 0, var3 = 0, var4 = 0, var5 = 0, var6 = 0, var7 = 0, var8 = 0, var9 = 0, 
+    var10 = 0, var11 = 0, var12 = 0, var13 = 0, var14 = 0, var15 = 0, var16 = 0, var17 = 0, var18 = 0, var19 = 0,
+    var20 = 0, var21 = 0, var22 = 0, var23 = 0, var24 = 0, var25 = 0, var26 = 0, var27 = 0, var28 = 0, var29 = 0,
+    var30 = 0, var31 = 0, var32 = 0, var33 = 0, var34 = 0, var35 = 0, var36 = 0, var37 = 0, var38 = 0, var39 = 0,
+    var40 = 0, var41 = 0, var42 = 0, var43 = 0, var44 = 0, var45 = 0, var46 = 0, var47 = 0, var48 = 0, var49 = 0,
+    var50 = 0, var51 = 0, var52 = 0, var53 = 0, var54 = 0, var55 = 0, var56 = 0, var57 = 0, var58 = 0, var59 = 0,
+    var60 = 0, var61 = 0, var62 = 0, var63 = 0;
 
 #define BAUD 9600
 #define BAUD_REGISTER_VALUE (F_CPU / 16 / BAUD - 1)

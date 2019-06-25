@@ -36,104 +36,136 @@ SYMBOL TABLE:
 00000302 l       .text	00000000 __udivmodhi4_ep
 000002f4 l       .text	00000000 __udivmodhi4_loop
 00000000 l    df *ABS*	00000000 
+00800112 g     O .bss	00000002 var54
 000000c0 g     F .text	00000018 serial_recv_if_avail
 0000008c  w      .text	00000000 __vector_22
-00800134 g     O .bss	00000002 var5
+00800174 g     O .bss	00000002 var5
+00800134 g     O .bss	00000002 var37
 0000008c  w      .text	00000000 __vector_1
-00800110 g     O .bss	00000002 var23
-00800120 g     O .bss	00000002 var15
-00800102 g     O .bss	00000002 var30
+00800150 g     O .bss	00000002 var23
+0080011e g     O .bss	00000002 var48
+00800160 g     O .bss	00000002 var15
+00800142 g     O .bss	00000002 var30
+00800104 g     O .bss	00000002 var61
 00000182 g     F .text	00000006 print_char
 000002ec g       .text	00000028 __udivmodhi4
 00000190 g     F .text	00000016 waitms
+0080012a g     O .bss	00000002 var42
 00000068 g       .text	00000000 __trampolines_start
 00000318 g       .text	00000000 _etext
-0080011c g     O .bss	00000002 var17
-0080012a g     O .bss	00000002 var10
-0080011e g     O .bss	00000002 var16
+0080015c g     O .bss	00000002 var17
+0080016a g     O .bss	00000002 var10
+0080015e g     O .bss	00000002 var16
+0080010e g     O .bss	00000002 var56
 0000008c  w      .text	00000000 __vector_24
 0000008c  w      .text	00000000 __vector_12
+00800136 g     O .bss	00000002 var36
 00000172 g     F .text	00000010 print_newline
 0000008c g       .text	00000000 __bad_interrupt
 00000154 g     F .text	0000001e print_str
 00000318 g       *ABS*	00000000 __data_load_end
 0000008c  w      .text	00000000 __vector_6
+00800110 g     O .bss	00000002 var55
 00000068 g       .text	00000000 __trampolines_end
+00800128 g     O .bss	00000002 var43
 0000008c  w      .text	00000000 __vector_3
-0080013c g     O .bss	00000002 var1
-00800112 g     O .bss	00000002 var22
+0080017c g     O .bss	00000002 var1
+00800152 g     O .bss	00000002 var22
 0000008c  w      .text	00000000 __vector_23
 00000318 g       *ABS*	00000000 __data_load_start
-0080010c g     O .bss	00000002 var25
+0080014c g     O .bss	00000002 var25
 00000068 g       .text	00000000 __dtors_end
-00800140 g       .bss	00000000 __bss_end
-00800124 g     O .bss	00000002 var13
+00800180 g       .bss	00000000 __bss_end
+0080013e g     O .bss	00000002 var32
+00800132 g     O .bss	00000002 var38
+00800164 g     O .bss	00000002 var13
 0000008c  w      .text	00000000 __vector_25
-00800136 g     O .bss	00000002 var4
+00800176 g     O .bss	00000002 var4
 00000090 g     F .text	00000012 __mulhi3
-0080011a g     O .bss	00000002 var18
+00800138 g     O .bss	00000002 var35
+0080015a g     O .bss	00000002 var18
 000001a6 g     F .text	00000012 waitus
+00800118 g     O .bss	00000002 var51
 0000008c  w      .text	00000000 __vector_11
 00000068  w      .text	00000000 __init
-0080012e g     O .bss	00000002 var8
+0080012e g     O .bss	00000002 var40
+0080016e g     O .bss	00000002 var8
 000001b8 g     F .text	0000004c adc_read
 000000b0 g     F .text	00000010 serial_recv
+00800100 g     O .bss	00000002 var63
 00000204 g     F .text	0000003c servo_output
 0000008c  w      .text	00000000 __vector_13
 0000008c  w      .text	00000000 __vector_17
 0000008c  w      .text	00000000 __vector_19
+00800122 g     O .bss	00000002 var46
 0000008c  w      .text	00000000 __vector_7
-00800126 g     O .bss	00000002 var12
-0080010a g     O .bss	00000002 var26
+00800166 g     O .bss	00000002 var12
+0080014a g     O .bss	00000002 var26
 00000074 g       .text	00000010 __do_clear_bss
+00800130 g     O .bss	00000002 var39
 00810000 g       .stab	00000000 __eeprom_end
-0080012c g     O .bss	00000002 var9
+0080016c g     O .bss	00000002 var9
 000000d8 g     F .text	0000007c print_number
 0000018c g     F .text	00000004 recvchar
+0080011a g     O .bss	00000002 var50
 00000000 g       .text	00000000 __vectors
+0080013c g     O .bss	00000002 var33
 00000000  w      .text	00000000 __vector_default
 000002c4 g       .text	00000028 __divmodhi4
 0000008c  w      .text	00000000 __vector_5
+00800114 g     O .bss	00000002 var53
 00000188 g     F .text	00000004 waitchar
-00800108 g     O .bss	00000002 var27
+00800148 g     O .bss	00000002 var27
+00800124 g     O .bss	00000002 var45
+0080011c g     O .bss	00000002 var49
 00000068 g       .text	00000000 __ctors_start
 00800100 g       .bss	00000000 __bss_start
 00000264 g     F .text	00000060 main
 0000008c  w      .text	00000000 __vector_4
-00800116 g     O .bss	00000002 var20
-0080013a g     O .bss	00000002 var2
-00800132 g     O .bss	00000002 var6
-00800138 g     O .bss	00000002 var3
+00800156 g     O .bss	00000002 var20
+0080010c g     O .bss	00000002 var57
+0080017a g     O .bss	00000002 var2
+00800172 g     O .bss	00000002 var6
+00800178 g     O .bss	00000002 var3
+00800116 g     O .bss	00000002 var52
 00000000  w      *ABS*	00000000 __heap_end
 0000008c  w      .text	00000000 __vector_9
 0000008c  w      .text	00000000 __vector_2
-00800130 g     O .bss	00000002 var7
-00800128 g     O .bss	00000002 var11
-00800106 g     O .bss	00000002 var28
-00800114 g     O .bss	00000002 var21
-0080010e g     O .bss	00000002 var24
+00800170 g     O .bss	00000002 var7
+00800168 g     O .bss	00000002 var11
+00800146 g     O .bss	00000002 var28
+00800154 g     O .bss	00000002 var21
+0080014e g     O .bss	00000002 var24
 0000008c  w      .text	00000000 __vector_21
 0000008c  w      .text	00000000 __vector_15
+00800126 g     O .bss	00000002 var44
 00000068 g       .text	00000000 __dtors_start
 00000068 g       .text	00000000 __ctors_end
 000008ff  w      *ABS*	00000000 __stack
-00800100 g     O .bss	00000002 var31
-00800118 g     O .bss	00000002 var19
+00800140 g     O .bss	00000002 var31
+00800158 g     O .bss	00000002 var19
 000000a2 g     F .text	0000000e serial_send
 00800100 g       .data	00000000 _edata
-00800140 g       .stab	00000000 _end
+0080010a g     O .bss	00000002 var58
+00800180 g       .stab	00000000 _end
 00000240 g     F .text	00000024 pwm_output
 0000008c  w      .text	00000000 __vector_8
+00800108 g     O .bss	00000002 var59
+0080013a g     O .bss	00000002 var34
 00000314  w      .text	00000000 exit
 000002c4 g       .text	00000000 _div
 00000314 g       .text	00000000 _exit
+0080012c g     O .bss	00000002 var41
+00800120 g     O .bss	00000002 var47
 0000008c  w      .text	00000000 __vector_14
-00800122 g     O .bss	00000002 var14
-0080013e g     O .bss	00000002 var0
+00800162 g     O .bss	00000002 var14
+0080017e g     O .bss	00000002 var0
 0000008c  w      .text	00000000 __vector_10
 0000008c  w      .text	00000000 __vector_16
 0000008c  w      .text	00000000 __vector_18
-00800104 g     O .bss	00000002 var29
+00800144 g     O .bss	00000002 var29
+00800102 g     O .bss	00000002 var62
+00800106 g     O .bss	00000002 var60
 0000008c  w      .text	00000000 __vector_20
 
 
