@@ -46,6 +46,16 @@ void Program::CodifyExpression(const MathExpression &mathExpression)
 			binary << MOV(25, 23);
 			break;
 			
+		case MathExpression::BitOr:
+			binary << OR(24, 22);
+			binary << OR(25, 23);
+			break;
+
+		case MathExpression::BitAnd:
+			binary << AND(24, 22);
+			binary << AND(25, 23);
+			break;
+			
 		default:
 			throw std::runtime_error("Operation not yet supported");
 			break;

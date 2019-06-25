@@ -68,7 +68,7 @@ RightSide::RightSide(const Variables &variables, const string &expression)
 				break;
 InFirstTokenLabel:
 			case InFirstToken:
-				if(*it == '+' || (*it == '-' && !firstToken.empty()) || *it == '*' || *it == '/') {
+				if(*it == '+' || (*it == '-' && !firstToken.empty()) || *it == '*' || *it == '/' || *it == '|' || *it == '&') {
 					state = InOp;
 					goto InOpLabel;
 				} else if(isspace(*it)) {
@@ -95,7 +95,12 @@ InOpLabel:
 					op = Multiplication;
 				} else if(*it == '/') {
 					op = Division;
+				} else if(*it == '|') {
+					op = BitOr;
+				} else if(*it == '&') {
+					op = BitAnd;
 				}
+
 				state = WaitSecondToken;
 				break;
 
@@ -136,7 +141,7 @@ int RightSide::GetType() const
 
 std::string RightSide::GetString() const
 {
-	static const char *opCh = "+-*/";
+	static const char *opCh = "+-*/|&";
 	if(op != NoOperation)
 		return(left.GetString() + string(" ") + opCh[op] + string(" ") + right.GetString());
 	else

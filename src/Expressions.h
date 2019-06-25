@@ -90,6 +90,10 @@ public:
 			mathOperator = Compiler::MathExpression::Multiply;
 		else if(op == Division)
 			mathOperator = Compiler::MathExpression::Divide;
+		else if(op == BitOr)
+			mathOperator = Compiler::MathExpression::BitOr;
+		else if(op == BitAnd)
+			mathOperator = Compiler::MathExpression::BitAnd;
 
 		return(Compiler::MathExpression(left.ToValueExpression(),
 					mathOperator,
@@ -98,7 +102,7 @@ public:
 
 private:
 	RightSideToken left;
-	enum Operator { Plus, Minus, Multiplication, Division, NoOperation };
+	enum Operator { Plus, Minus, Multiplication, Division, BitOr, BitAnd, NoOperation };
 	Operator op;
 	RightSideToken right;
 };

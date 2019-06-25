@@ -121,6 +121,12 @@ typedef TwoOperandsInstruction<	0b0000100000000000,
 typedef TwoOperandsInstruction<	0b0001100000000000,
 				0b0000000111110000, 
 		      		0b0000001000001111> SubtractWithoutCarry; 
+typedef TwoOperandsInstruction<	0b0010100000000000,
+				0b0000000111110000, 
+		      		0b0000001000001111> OR; 
+typedef TwoOperandsInstruction<	0b0010000000000000,
+				0b0000000111110000, 
+		      		0b0000001000001111> AND; 
 typedef TwoOperandsInstruction<	0b0010010000000000,
 				0b0000000111110000, 
 		      		0b0000001000001111> EOR; 
@@ -448,7 +454,7 @@ private:
 class MathExpression : public Expression
 {
 public:
-	enum Operator { Plus, Minus, Multiply, Divide };
+	enum Operator { Plus, Minus, Multiply, Divide, BitOr, BitAnd };
 	explicit MathExpression (const ValueExpression  &left, Operator op, const ValueExpression &right)
 		: left(left), op(op), right(right)
 	{
