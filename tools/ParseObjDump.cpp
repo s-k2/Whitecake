@@ -22,6 +22,8 @@ void ParseTokens(vector<string> &tokens)
 		allSymbols.insert(make_pair(tokens.back(), stoi(tokens.front(), NULL, 16)));
 	} else if(section == ".bss") {
 		allSymbols.insert(make_pair(tokens.back(), stoi(tokens.front(), NULL, 16) - 0x800000));
+	} else if(section == "*ABS*" && *(tokens.begin() + 1) == "g") {
+		allSymbols.insert(make_pair(tokens.back(), stoi(tokens.front(), NULL, 16)));
 	}
 }
 

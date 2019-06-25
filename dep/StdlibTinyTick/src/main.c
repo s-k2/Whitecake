@@ -14,9 +14,11 @@ int var0 = 0, var1 = 0, var2 = 0, var3 = 0, var4 = 0, var5 = 0, var6 = 0, var7 =
 
 int main()
 {
-	// tmp
-	// TODO: enable input and output-pins
-	// end tmp
+	// this is the address of PORTA (low) and DDRA (high), made available to the compiler
+	// with the correct config of Whitecake it can be used just like any variable and 
+	// allows to set direction and value of each pin of PORTA from within Whitecake
+	asm(".set PORTA_AND_DDRA, 0x3b"); 
+	asm(".global PORTA_AND_DDRA"); 
 
 	ADMUX = (0 << REFS1) | (0 << REFS0) |  // VCC is voltage reference
 		(0 << ADLAR) | // right justified output

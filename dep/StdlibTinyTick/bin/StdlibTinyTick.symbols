@@ -88,6 +88,7 @@ SYMBOL TABLE:
 008000c4 g     O .bss	00000002 var13
 008000d6 g     O .bss	00000002 var4
 00000282 g       .text	00000024 __mulhi3
+0000003b g       *ABS*	00000000 PORTA_AND_DDRA
 00800098 g     O .bss	00000002 var35
 008000ba g     O .bss	00000002 var18
 000001e4 g     F .text	00000012 waitus

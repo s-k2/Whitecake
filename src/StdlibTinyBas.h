@@ -46,6 +46,8 @@ static const std::map<std::string, Address> StdlibSymbols = {
 	{ "__bss_start", 0x60 },
 	{ "__ctors_end", 0x22 },
 	{ "__ctors_start", 0x22 },
+	{ "__data_load_end", 0x22e },
+	{ "__data_load_start", 0x22e },
 	{ "__divmodhi4", 0x1dc },
 	{ "__divmodhi4_exit", 0x200 },
 	{ "__divmodhi4_neg1", 0x1f2 },
