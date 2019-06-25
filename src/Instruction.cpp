@@ -103,6 +103,26 @@ InstructionInfo Instruction::InstructionInfos[] =
 		}, 
 		NoRet,
 	},
+#ifdef WHITECAKE_FOR_ARDUINO
+	{ 
+		"servo_output", "Servo-Wert ausgeben", "", 2,
+		{
+			{ FixedInteger, "Servo-Kanal (0 oder 1)" }, 
+			{ FixedInteger | IntegerVariable, "Wert" }, 
+			{ NoArg, NULL } 
+		}, 
+		NoRet,
+	},
+	{ 
+		"pwm_output", "PWM-Wert ausgeben", "", 2,
+		{
+			{ FixedInteger, "PWM-Kanal (0 oder 1)" }, 
+			{ FixedInteger | IntegerVariable, "Wert" }, 
+			{ NoArg, NULL } 
+		}, 
+		NoRet,
+	},
+#endif /* WHITECAKE_FOR_ARDUINO */
 #ifdef WHITECAKE_FOR_TINYTICK
 	{ 
 		"pwm_init", "PWM aktivieren", "", 0,

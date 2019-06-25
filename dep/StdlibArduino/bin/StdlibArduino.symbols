@@ -5,6 +5,8 @@ SYMBOL TABLE:
 00800100 l    d  .data	00000000 .data
 00000000 l    d  .text	00000000 .text
 00800100 l    d  .bss	00000000 .bss
+00000000 l    d  .stab	00000000 .stab
+00000000 l    d  .stabstr	00000000 .stabstr
 00000000 l    d  .comment	00000000 .comment
 00000000 l    d  .debug_aranges	00000000 .debug_aranges
 00000000 l    d  .debug_info	00000000 .debug_info
@@ -20,83 +22,83 @@ SYMBOL TABLE:
 0000003f l       *ABS*	00000000 __SREG__
 00000000 l       *ABS*	00000000 __tmp_reg__
 00000001 l       *ABS*	00000000 __zero_reg__
-00000216 l       .text	00000000 call_user_main
+000002b8 l       .text	00000000 call_user_main
 00000000 l    df *ABS*	00000000 _divmodhi4.o
-0000023a l       .text	00000000 __divmodhi4_neg1
-00000242 l       .text	00000000 __divmodhi4_neg2
-00000248 l       .text	00000000 __divmodhi4_exit
+000002dc l       .text	00000000 __divmodhi4_neg1
+000002e4 l       .text	00000000 __divmodhi4_neg2
+000002ea l       .text	00000000 __divmodhi4_exit
 00000000 l    df *ABS*	00000000 _exit.o
-00000274 l       .text	00000000 __stop_program
+00000316 l       .text	00000000 __stop_program
 00000000 l    df *ABS*	00000000 _clear_bss.o
 0000007e l       .text	00000000 .do_clear_bss_start
 0000007c l       .text	00000000 .do_clear_bss_loop
 00000000 l    df *ABS*	00000000 _udivmodhi4.o
-00000260 l       .text	00000000 __udivmodhi4_ep
-00000252 l       .text	00000000 __udivmodhi4_loop
-000000ae g     F .text	00000016 serial_recv_if_avail
+00000302 l       .text	00000000 __udivmodhi4_ep
+000002f4 l       .text	00000000 __udivmodhi4_loop
+00000000 l    df *ABS*	00000000 
+000000c0 g     F .text	00000018 serial_recv_if_avail
 0000008c  w      .text	00000000 __vector_22
 00800134 g     O .bss	00000002 var5
-000001aa g     F .text	00000002 servo_init
 0000008c  w      .text	00000000 __vector_1
 00800110 g     O .bss	00000002 var23
 00800120 g     O .bss	00000002 var15
 00800102 g     O .bss	00000002 var30
-000001b2 g     F .text	00000006 print_char
-0000024a g       .text	00000028 .hidden __udivmodhi4
-000001c0 g     F .text	00000016 waitms
+00000182 g     F .text	00000006 print_char
+000002ec g       .text	00000028 __udivmodhi4
+00000190 g     F .text	00000016 waitms
 00000068 g       .text	00000000 __trampolines_start
-00000276 g       .text	00000000 _etext
+00000318 g       .text	00000000 _etext
 0080011c g     O .bss	00000002 var17
 0080012a g     O .bss	00000002 var10
 0080011e g     O .bss	00000002 var16
 0000008c  w      .text	00000000 __vector_24
 0000008c  w      .text	00000000 __vector_12
-00000178 g     F .text	00000008 print_newline
+00000172 g     F .text	00000010 print_newline
 0000008c g       .text	00000000 __bad_interrupt
-0000015a g     F .text	0000001e print_str
-00000276 g       *ABS*	00000000 __data_load_end
+00000154 g     F .text	0000001e print_str
+00000318 g       *ABS*	00000000 __data_load_end
 0000008c  w      .text	00000000 __vector_6
 00000068 g       .text	00000000 __trampolines_end
 0000008c  w      .text	00000000 __vector_3
 0080013c g     O .bss	00000002 var1
 00800112 g     O .bss	00000002 var22
 0000008c  w      .text	00000000 __vector_23
-00000276 g       *ABS*	00000000 __data_load_start
+00000318 g       *ABS*	00000000 __data_load_start
 0080010c g     O .bss	00000002 var25
 00000068 g       .text	00000000 __dtors_end
 00800140 g       .bss	00000000 __bss_end
 00800124 g     O .bss	00000002 var13
 0000008c  w      .text	00000000 __vector_25
 00800136 g     O .bss	00000002 var4
-000000c4 g     F .text	00000012 __mulhi3
+00000090 g     F .text	00000012 __mulhi3
 0080011a g     O .bss	00000002 var18
-000001d6 g     F .text	00000012 waitus
+000001a6 g     F .text	00000012 waitus
 0000008c  w      .text	00000000 __vector_11
 00000068  w      .text	00000000 __init
 0080012e g     O .bss	00000002 var8
-00000180 g     F .text	0000002a adc_read
-0000009e g     F .text	00000010 serial_recv
-000001ae g     F .text	00000002 pwm_init
+000001b8 g     F .text	0000004c adc_read
+000000b0 g     F .text	00000010 serial_recv
+00000204 g     F .text	0000003c servo_output
 0000008c  w      .text	00000000 __vector_13
 0000008c  w      .text	00000000 __vector_17
 0000008c  w      .text	00000000 __vector_19
 0000008c  w      .text	00000000 __vector_7
 00800126 g     O .bss	00000002 var12
 0080010a g     O .bss	00000002 var26
-00000074 g       .text	00000010 .hidden __do_clear_bss
-00810000 g       .comment	00000000 __eeprom_end
+00000074 g       .text	00000010 __do_clear_bss
+00810000 g       .stab	00000000 __eeprom_end
 0080012c g     O .bss	00000002 var9
-000000d6 g     F .text	00000084 print_number
-000001bc g     F .text	00000004 recvchar
+000000d8 g     F .text	0000007c print_number
+0000018c g     F .text	00000004 recvchar
 00000000 g       .text	00000000 __vectors
 00000000  w      .text	00000000 __vector_default
-00000222 g       .text	00000028 .hidden __divmodhi4
+000002c4 g       .text	00000028 __divmodhi4
 0000008c  w      .text	00000000 __vector_5
-000001b8 g     F .text	00000004 waitchar
+00000188 g     F .text	00000004 waitchar
 00800108 g     O .bss	00000002 var27
 00000068 g       .text	00000000 __ctors_start
 00800100 g       .bss	00000000 __bss_start
-000001e8 g     F .text	0000003a main
+00000264 g     F .text	00000060 main
 0000008c  w      .text	00000000 __vector_4
 00800116 g     O .bss	00000002 var20
 0080013a g     O .bss	00000002 var2
@@ -105,7 +107,6 @@ SYMBOL TABLE:
 00000000  w      *ABS*	00000000 __heap_end
 0000008c  w      .text	00000000 __vector_9
 0000008c  w      .text	00000000 __vector_2
-000001ac g     F .text	00000002 servo_set
 00800130 g     O .bss	00000002 var7
 00800128 g     O .bss	00000002 var11
 00800106 g     O .bss	00000002 var28
@@ -113,19 +114,19 @@ SYMBOL TABLE:
 0080010e g     O .bss	00000002 var24
 0000008c  w      .text	00000000 __vector_21
 0000008c  w      .text	00000000 __vector_15
-000001b0 g     F .text	00000002 pwm_set
 00000068 g       .text	00000000 __dtors_start
 00000068 g       .text	00000000 __ctors_end
 000008ff  w      *ABS*	00000000 __stack
 00800100 g     O .bss	00000002 var31
 00800118 g     O .bss	00000002 var19
-00000090 g     F .text	0000000e serial_send
+000000a2 g     F .text	0000000e serial_send
 00800100 g       .data	00000000 _edata
-00800140 g       .comment	00000000 _end
+00800140 g       .stab	00000000 _end
+00000240 g     F .text	00000024 pwm_output
 0000008c  w      .text	00000000 __vector_8
-00000272  w      .text	00000000 .hidden exit
-00000222 g       .text	00000000 .hidden _div
-00000272 g       .text	00000000 .hidden _exit
+00000314  w      .text	00000000 exit
+000002c4 g       .text	00000000 _div
+00000314 g       .text	00000000 _exit
 0000008c  w      .text	00000000 __vector_14
 00800122 g     O .bss	00000002 var14
 0080013e g     O .bss	00000002 var0

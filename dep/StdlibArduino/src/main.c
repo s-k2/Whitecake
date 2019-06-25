@@ -2,32 +2,6 @@
 #include <util/delay.h>
 #include <avr/pgmspace.h>
 
-#define BAUD 9600
-#define BAUD_REGISTER_VALUE (F_CPU / 16 / BAUD - 1)
-
-void serial_send(int ch)
-{
-	while(!(UCSR0A & (1 << UDRE0))) // wait for transmitter to become ready
-		;
-	UDR0 = (uint8_t) ch;
-}
-
-int serial_recv()
-{
-	while(!((UCSR0A) & (1 << RXC0)))
-		;
-	
-	return((int) UDR0);
-}
-
-int serial_recv_if_avail()
-{
-	if(!((UCSR0A) & (1 << RXC0)))
-		return(0);
-	
-	return((int) UDR0);
-}
-
 int var0 = 0;
 int var1 = 0;
 int var2 = 0;
@@ -61,12 +35,22 @@ int var29 = 0;
 int var30 = 0;
 int var31 = 0;
 
+#define BAUD 9600
+#define BAUD_REGISTER_VALUE (F_CPU / 16 / BAUD - 1)
+
 int main()
 {
-	// tmp
-	// TODO: enable input and output-pins
-	// end tmp
+	// init ports
+	// D2...D5 (PD2...PD5): outputs set to low
+	DDRD = (1 << PD2) | (1 << PD3) | (1 << PD4) | (1 << PD5);
+	// D6...D7 (PD6...PD7): inputs with pull-up
+	PORTD = (1 << PD6) | (1 << PD7);
+	// D8...D13 (PB0...PB5): outputs set to low
+	DDRB = (1 << PB0) | (1 << PB1) | (1 << PB2) | (1 << PB3) | (1 << PB4) | (1 << PB5);
+	// A0...A5 (PC0...PC5): inputs with pull-up and optional ADC
+	PORTC = (1 << PC0) | (1 << PC1) | (1 << PC2) | (1 << PC3) | (1 << PC4) | (1 << PC5);
 
+	// init adc
 	ADMUX = (0 << REFS1) | (1 << REFS0) |  // VCC is voltage reference
 		(0 << ADLAR) | // right justified output
 		0; // Analog channel 0
@@ -89,11 +73,22 @@ int main()
 		(0 << USBS0) | // one stop-bit
 		(1 << UCSZ01) | (1 << UCSZ00); // (0)11 -> 8-bit mode
 	UCSR0B = (1 << RXEN0) | (1 << TXEN0);
-	
-	DDRC = 0x00;
-	DDRB = 0xff; // PORTB.0-7 -> Output
-	PIND |= (1 << 2) | (1 << 3) | (1 << 4) | (1 << 5) | (1 << 6) | (1 << 7); // enable pull-up
-	
+
+	// init servo
+	ICR1 = 0xffff; // top value
+	TCCR1A = (0 << COM1A1) | (0 << COM1A0) | // disable for now, prepared for clear on compare match (PB1=D9)
+		(0 << COM1B1) | (0 << COM1B0) | // disable for now, prepared for clear on compare match (PB2=D10)
+		(1 << WGM11) | (0 << WGM10); // fast pwm, top is ICR1
+	TCCR1B = (1 << WGM13) | (0 << WGM12) | // see WGM11/0 above
+		(0 << CS12) | (1 << CS11) | (0 << CS10); // clk/8
+
+	// init pwm
+	TCCR2A = (0 << COM2B1) | (0 << COM2B0) | // disable for now, prepared for clear on compare match (PD3=D3)
+		(0 << COM2A1) | (0 << COM2A0) | // disable for now, prepared for clear on compare match (PB3=D11)
+		(1 << WGM21) | (1 << WGM20); // fast pwm mode, top is 0xff
+	TCCR2B = (0 << WGM22) | // see WGM21/20 above
+		(1 << CS22) | (0 << CS21) | (1 << CS20); // clk/128 and starts pwm
+
 	// label this position to include the call of user main later
 	asm ("call_user_main:");
 	asm volatile ("nop");
@@ -103,10 +98,34 @@ int main()
 	return(0);
 }
 
-int __mulhi3(int a, int b)
+int __mulhi3(int a, int b) // we provide a function for multiplication (equal to ATTiny)
 {
 	return(a * b);
 }
+
+void serial_send(int ch)
+{
+	while(!(UCSR0A & (1 << UDRE0))) // wait for transmitter to become ready
+		;
+	UDR0 = (uint8_t) ch;
+}
+
+int serial_recv()
+{
+	while(!((UCSR0A) & (1 << RXC0)))
+		;
+	
+	return((int) UDR0);
+}
+
+int serial_recv_if_avail()
+{
+	if(!((UCSR0A) & (1 << RXC0)))
+		return(0);
+	
+	return((int) UDR0);
+}
+
 
 void print_number(int16_t num)
 {
@@ -145,34 +164,6 @@ void print_newline()
 	serial_send('\n');
 }
 
-int adc_read(int channel)
-{
-	ADMUX = (ADMUX & ~0x0f) | ((uint8_t) channel & 0xf); // select channel
-	
-	ADCSRA |= (1 << ADSC); // start conversion
-	
-	while((ADCSRA & (1 << ADIF)) == 0) // wait for conversion to complete
-		;
-		
-	return(ADCW);
-}
-
-void servo_init()
-{
-}
-
-void servo_set(int num, char value)
-{
-}
-
-void pwm_init()
-{
-}
-
-void pwm_set(int num, int value)
-{
-}
-
 void print_char(int ch)
 {
 	serial_send((uint8_t) ch);
@@ -203,3 +194,43 @@ void waitus(uint16_t us)
 		us--;
 	}
 }
+
+int adc_read(int channel)
+{
+	PORTC &= ~(1 << channel); // disable pull-up
+	ADMUX = (ADMUX & ~0x0f) | ((uint8_t) channel & 0xf); // select channel
+	
+	ADCSRA |= (1 << ADSC); // start conversion
+	while((ADCSRA & (1 << ADIF)) == 0) // and wait for conversion to complete
+		;
+
+	PORTC &= 1 << channel; // and enable pull-up again
+		
+	return(ADCW);
+}
+
+void servo_output(int channel, unsigned int value)
+{
+   value = (value * 20) + 2000; // map 0...100 to 2000...4000
+   
+   if(channel == 0) { // PB1=D9
+      OCR1A = value;
+      TCCR1A |= (1 << COM1A1); // clear on compare match
+   } else if(channel == 1) { // PB2=D10
+      OCR1B = value;
+      TCCR1A |= (1 << COM1B1); // clear on compare match
+   }
+}
+
+void pwm_output(int channel, unsigned int value)
+{
+   if(channel == 0) { // PD3=D3
+      OCR2B = value;
+      TCCR2A |= (1 << COM2B1);
+   } else if(channel == 1) { // PB3=D11
+      OCR2A = value;
+      TCCR2A |= (1 << COM2A1);
+   }
+}
+
+
