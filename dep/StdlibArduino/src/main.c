@@ -50,7 +50,7 @@ int main()
 	UCSR0B = (1 << RXEN0) | (1 << TXEN0);
 
 	// init servo
-	ICR1 = 0xffff; // top value
+	ICR1 = 0x7fff; // top value
 	TCCR1A = (0 << COM1A1) | (0 << COM1A0) | // disable for now, prepared for clear on compare match (PB1=D9)
 		(0 << COM1B1) | (0 << COM1B0) | // disable for now, prepared for clear on compare match (PB2=D10)
 		(1 << WGM11) | (0 << WGM10); // fast pwm, top is ICR1
@@ -186,7 +186,7 @@ int adc_read(int channel)
 
 void servo_output(int channel, unsigned int value)
 {
-   value = (value * 20) + 2000; // map 0...100 to 2000...4000
+   value = (value * 10) + 1000; // map 0...100 to 1000...2000
    
    if(channel == 0) { // PB1=D9
       OCR1A = value;
