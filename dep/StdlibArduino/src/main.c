@@ -179,7 +179,7 @@ int adc_read(int channel)
 	while((ADCSRA & (1 << ADIF)) == 0) // and wait for conversion to complete
 		;
 
-	PORTC &= 1 << channel; // and enable pull-up again
+	PORTC |= 1 << channel; // and enable pull-up again
 		
 	return(ADCW);
 }
