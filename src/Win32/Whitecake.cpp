@@ -19,7 +19,7 @@
 #endif /* _MSC_VER */
 
 HINSTANCE hInst;
-const TCHAR *szTitle = "Whitecake v0.9";// (Beta) - [" __DATE__ "]";
+const TCHAR *szTitle = "Whitecake v1.0";
 const TCHAR *szWindowClass = "MainWindow";
 
 MainWindow *mainWindow; // TODO: Bad way, find a better solution for it
