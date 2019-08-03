@@ -14,6 +14,16 @@ int var0 = 0, var1 = 0, var2 = 0, var3 = 0, var4 = 0, var5 = 0, var6 = 0, var7 =
 
 int main()
 {
+	// init ports
+	// PORTA.0, PORTA.1, PORTA.3, PORTA.7 outputs
+	DDRA = (1 << PA0) | (1 << PA1) | (1 << PA3) | (1 << PA7);
+	// PINA.2, PINA.4, PINA.6 inputs with pull-up
+	PORTA = (1 << PA2) | (1 << PA4) | (1 << PA6);
+	// PORTB.0, PORTB.1, PORTB.2, PORTB.3, PORTB.5 outputs
+	DDRB = (1 << PB0) | (1 << PB1) | (1 << PB2) | (1 << PB3) | (1 << PB5);
+	// no inputs with pull-up on PORTB, except PINB.6 beeing rx-pin
+
+
 	// this is the address of PORTA (low) and DDRA (high), made available to the compiler
 	// with the correct config of Whitecake it can be used just like any variable and 
 	// allows to set direction and value of each pin of PORTA from within Whitecake
@@ -34,11 +44,6 @@ int main()
 	// leave ADCSRB to 0 -> no bipolar input, no gain, (no internal reference selection), no auto-trigger source (= free-running mode)
 	// DIDR0 and DIDR1 what about disabling digital input for adc-pins???
 	
-	DDRA = (1 << 0) | (1 << 3) | (1 << 7);
-	DDRB = (1 << 0) | (1 << 1) | (1 << 2) | (1 << 3) | (1 << 5);
-	PORTA |= (1 << 6) | (1 << 4); // enable pull-ups
-	PORTB |= (1 << 6) | (1 << 4);
-
 	serial_init();
 	
 	var0 = var1 * var2; // dummy instruction to force the generation of __mulhi3

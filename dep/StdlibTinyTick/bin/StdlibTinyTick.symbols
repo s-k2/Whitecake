@@ -25,7 +25,7 @@ SYMBOL TABLE:
 0000003f l       *ABS*	00000000 __SREG__
 00000000 l       *ABS*	00000000 __tmp_reg__
 00000001 l       *ABS*	00000000 __zero_reg__
-00000276 l       .text	00000000 call_user_main
+0000026e l       .text	00000000 call_user_main
 00000000 l    df *ABS*	00000000 softserial.c
 0000003e l       *ABS*	00000000 __SP_H__
 0000003d l       *ABS*	00000000 __SP_L__
@@ -33,18 +33,18 @@ SYMBOL TABLE:
 00000000 l       *ABS*	00000000 __tmp_reg__
 00000001 l       *ABS*	00000000 __zero_reg__
 00000000 l    df *ABS*	00000000 _mulhi3.o
-00000286 l       .text	00000000 __mulhi3_loop
-0000028e l       .text	00000000 __mulhi3_skip1
-000002a0 l       .text	00000000 __mulhi3_exit
+0000027e l       .text	00000000 __mulhi3_loop
+00000286 l       .text	00000000 __mulhi3_skip1
+00000298 l       .text	00000000 __mulhi3_exit
 00000000 l    df *ABS*	00000000 _divmodhi4.o
-000002bc l       .text	00000000 __divmodhi4_neg1
-000002c4 l       .text	00000000 __divmodhi4_neg2
-000002ca l       .text	00000000 __divmodhi4_exit
+000002b4 l       .text	00000000 __divmodhi4_neg1
+000002bc l       .text	00000000 __divmodhi4_neg2
+000002c2 l       .text	00000000 __divmodhi4_exit
 00000000 l    df *ABS*	00000000 _exit.o
-000002f6 l       .text	00000000 __stop_program
+000002ee l       .text	00000000 __stop_program
 00000000 l    df *ABS*	00000000 _udivmodhi4.o
-000002e2 l       .text	00000000 __udivmodhi4_ep
-000002d4 l       .text	00000000 __udivmodhi4_loop
+000002da l       .text	00000000 __udivmodhi4_ep
+000002cc l       .text	00000000 __udivmodhi4_loop
 00000000 l    df *ABS*	00000000 
 00800072 g     O .bss	00000002 var54
 008000d4 g     O .bss	00000002 var5
@@ -57,11 +57,11 @@ SYMBOL TABLE:
 008000a2 g     O .bss	00000002 var30
 00800064 g     O .bss	00000002 var61
 000001c0 g     F .text	00000002 print_char
-000002cc g       .text	00000028 __udivmodhi4
+000002c4 g       .text	00000028 __udivmodhi4
 000001ce g     F .text	00000016 waitms
 0080008a g     O .bss	00000002 var42
 00000026 g       .text	00000000 __trampolines_start
-000002f8 g       .text	00000000 _etext
+000002f0 g       .text	00000000 _etext
 008000bc g     O .bss	00000002 var17
 008000ca g     O .bss	00000002 var10
 008000be g     O .bss	00000002 var16
@@ -71,7 +71,7 @@ SYMBOL TABLE:
 000000d4 g     F .text	00000008 print_newline
 00000046 g       .text	00000000 __bad_interrupt
 000000ba g     F .text	0000001a print_str
-000002f8 g       *ABS*	00000000 __data_load_end
+000002f0 g       *ABS*	00000000 __data_load_end
 00000046  w      .text	00000000 __vector_6
 00800070 g     O .bss	00000002 var55
 00000026 g       .text	00000000 __trampolines_end
@@ -79,7 +79,7 @@ SYMBOL TABLE:
 00000046  w      .text	00000000 __vector_3
 008000dc g     O .bss	00000002 var1
 008000b2 g     O .bss	00000002 var22
-000002f8 g       *ABS*	00000000 __data_load_start
+000002f0 g       *ABS*	00000000 __data_load_start
 008000ac g     O .bss	00000002 var25
 00000026 g       .text	00000000 __dtors_end
 008000e0 g       .bss	00000000 __bss_end
@@ -87,7 +87,7 @@ SYMBOL TABLE:
 00800092 g     O .bss	00000002 var38
 008000c4 g     O .bss	00000002 var13
 008000d6 g     O .bss	00000002 var4
-00000282 g       .text	00000024 __mulhi3
+0000027a g       .text	00000024 __mulhi3
 0000003b g       *ABS*	00000000 PORTA_AND_DDRA
 00800098 g     O .bss	00000002 var35
 008000ba g     O .bss	00000002 var18
@@ -118,7 +118,7 @@ SYMBOL TABLE:
 0080009c g     O .bss	00000002 var33
 0000023c g     F .text	00000004 softserial_recv
 00000000  w      .text	00000000 __vector_default
-000002a6 g       .text	00000026 __divmodhi4
+0000029e g       .text	00000026 __divmodhi4
 00000046  w      .text	00000000 __vector_5
 00800074 g     O .bss	00000002 var53
 000001c2 g     F .text	00000006 waitchar
@@ -127,7 +127,7 @@ SYMBOL TABLE:
 0080007c g     O .bss	00000002 var49
 00000026 g       .text	00000000 __ctors_start
 00800060 g       .bss	00000000 __bss_start
-00000240 g     F .text	00000042 main
+00000240 g     F .text	0000003a main
 00000046  w      .text	00000000 __vector_4
 008000b6 g     O .bss	00000002 var20
 0080006c g     O .bss	00000002 var57
@@ -159,9 +159,9 @@ SYMBOL TABLE:
 00000046  w      .text	00000000 __vector_8
 00800068 g     O .bss	00000002 var59
 0080009a g     O .bss	00000002 var34
-000002f4  w      .text	00000000 exit
-000002a6 g       .text	00000000 _div
-000002f4 g       .text	00000000 _exit
+000002ec  w      .text	00000000 exit
+0000029e g       .text	00000000 _div
+000002ec g       .text	00000000 _exit
 0080008c g     O .bss	00000002 var41
 00800080 g     O .bss	00000002 var47
 00000046  w      .text	00000000 __vector_14
