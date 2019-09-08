@@ -116,7 +116,7 @@ InstructionInfo Instruction::InstructionInfos[] =
 	{ 
 		"pwm_output", "PWM-Wert ausgeben", "", 2,
 		{
-			{ FixedInteger, "PWM-Kanal (0 oder 1)" }, 
+			{ FixedInteger, "PWM-Kanal (0, 1, 2 oder 3)" }, 
 			{ FixedInteger | IntegerVariable, "Wert" }, 
 			{ NoArg, NULL } 
 		}, 

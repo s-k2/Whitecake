@@ -16,10 +16,10 @@ int var0 = 0, var1 = 0, var2 = 0, var3 = 0, var4 = 0, var5 = 0, var6 = 0, var7 =
 int main()
 {
 	// init ports
-	// D2...D5 (PD2...PD5): outputs set to low
-	DDRD = (1 << PD2) | (1 << PD3) | (1 << PD4) | (1 << PD5);
-	// D6...D7 (PD6...PD7): inputs with pull-up
-	PORTD = (1 << PD6) | (1 << PD7);
+	// D3...D6 (PD3...PD3): outputs set to low
+	DDRD = (1 << PD3) | (1 << PD4) | (1 << PD5) | (1 << PD6);
+	// D2 and D7 (PD2 and PD7): inputs with pull-up
+	PORTD = (1 << PD2) | (1 << PD7);
 	// D8...D13 (PB0...PB5): outputs set to low
 	DDRB = (1 << PB0) | (1 << PB1) | (1 << PB2) | (1 << PB3) | (1 << PB4) | (1 << PB5);
 	// A0...A5 (PC0...PC5): inputs with pull-up and optional ADC
@@ -51,18 +51,23 @@ int main()
 
 	// init servo
 	ICR1 = 0x7fff; // top value
-	TCCR1A = (0 << COM1A1) | (0 << COM1A0) | // disable for now, prepared for clear on compare match (PB1=D9)
-		(0 << COM1B1) | (0 << COM1B0) | // disable for now, prepared for clear on compare match (PB2=D10)
+	TCCR1A = (0 << COM1A1) | (0 << COM1A0) | // disable for now, prepared for clear on compare match (PB1=D9=Servo0)
+		(0 << COM1B1) | (0 << COM1B0) | // disable for now, prepared for clear on compare match (PB2=D10=Servo1)
 		(1 << WGM11) | (0 << WGM10); // fast pwm, top is ICR1
 	TCCR1B = (1 << WGM13) | (0 << WGM12) | // see WGM11/0 above
 		(0 << CS12) | (1 << CS11) | (0 << CS10); // clk/8
 
 	// init pwm
-	TCCR2A = (0 << COM2B1) | (0 << COM2B0) | // disable for now, prepared for clear on compare match (PD3=D3)
-		(0 << COM2A1) | (0 << COM2A0) | // disable for now, prepared for clear on compare match (PB3=D11)
+	TCCR0A = (0 << COM0A1) | (0 << COM0A0) | // disable for now, prepared for clear on compare match (PD6=D6=PWM2)
+		(0 << COM0B1) | (0 << COM0B0) | // disable for now, prepared for clear on compare match (PD5=D5=PWM1)
+		(1 << WGM01) | (1 << WGM00); // fast pwm mode, top is 0xff
+	TCCR0B = (0 << WGM02) | // see WGM01/00 above
+		(0 << CS02) | (1 << CS01) | (1 << CS00); // clk/64 and starts pwm
+	TCCR2A = (0 << COM2A1) | (0 << COM2A0) | // disable for now, prepared for clear on compare match (PB3=D11=PWM3)
+		(0 << COM2B1) | (0 << COM2B0) | // disable for now, prepared for clear on compare match (PD3=D3=PWM0)
 		(1 << WGM21) | (1 << WGM20); // fast pwm mode, top is 0xff
 	TCCR2B = (0 << WGM22) | // see WGM21/20 above
-		(1 << CS22) | (0 << CS21) | (1 << CS20); // clk/128 and starts pwm
+		(1 << CS22) | (0 << CS21) | (0 << CS20); // clk/64 (yes, bits differ!) and starts pwm
 
 	// label this position to include the call of user main later
 	asm ("call_user_main:");
@@ -199,13 +204,21 @@ void servo_output(int channel, unsigned int value)
 
 void pwm_output(int channel, unsigned int value)
 {
-   if(channel == 0) { // PD3=D3
+   if(channel == 0) { // PD3=D3=PWM0
       OCR2B = value;
       TCCR2A |= (1 << COM2B1);
-   } else if(channel == 1) { // PB3=D11
+   } else if(channel == 1) { // (PD5=D5=PWM1)
+      OCR0B = value;
+      TCCR0A |= (1 << COM0B1);
+   } else if(channel == 2) { // (PD6=D6=PWM2)
+      OCR0A = value;
+      TCCR0A |= (1 << COM0A1);
+   } else if(channel == 3) { // PB3=D11=PWM3
       OCR2A = value;
       TCCR2A |= (1 << COM2A1);
    }
 }
+
+
 
 

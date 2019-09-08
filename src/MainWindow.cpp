@@ -109,7 +109,7 @@ void MainWindow::PaintTitleBar(Drawing *drawing)
 #ifdef WHITECAKE_FOR_TINYTICK
 		" for TinyTick"
 #endif /* WHITECAKE_FOR_TINYTICK */
-		" 1.0";
+		" 1.1";
 
 	string titleLine = (GetProject()->GetPath().empty() ? string(TR_UNSAVED) : GetProject()->GetPath()) + appName;
 	drawing->PrintText(TabBarX, 4, width - SystemButtonsWidth - TabBarX, TabBarY - 8, titleLine, Stock::GuiFont, Stock::DarkerGrey);
